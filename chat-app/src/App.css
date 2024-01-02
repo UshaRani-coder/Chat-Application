@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap');
+
+ html, body{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+.form-container{
+  background-color:#E0B0FF;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.form-wrapper{
+  background-color: #9e509b;
+  height: 50%;
+  width: 200px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+form{
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  
+  justify-content: space-around;
+
+}
+.logo{
+  color: #38419D;
+  font-family: 'Tilt Prism';
+  font-weight: bolder;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+input{
+  border: none;
+  padding: 4px;
+  border-bottom: 1px solid #E0B0FF;
+}
+input::placeholder{
+  color: rgb(0,0,0,0.5);
+}
+label{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  padding: 10px 0px;
+
+}
+form p{
+  font-size: 0.7em;
+}
+button{
+  background-color:#E0B0FF;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 10px;
+  padding:5px 30px;
+  border: none;
+}
+/*@media screen and (min-width: )*/
+
+/* styling the Home-page */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+.App{
+  height: 100vh;
+}
+.home-container{
+height: 100%;
+background-color: #ffffff;
+display: flex;
+flex-direction: row;
+}
+.header{
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px;
+  background-color: #6b3669;
+}
+.header span{
+font-size: 20px;
+color: #ffffff;
+font-family: 'Lobster', sans-serif;
+letter-spacing: 2px;
+}
+.sidebar{
+  background-color: #9e509b;
+  width: 30%;
+  
+}
+.chat{
+  width: 65%;
+  border-radius: 20px;
+}
+.left-navbar{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #ffffff;
+  background-color: #763568;
+  padding: 10px;
+}
+.left-navbar span{
+  font-size: 20px;
+  font-weight: 800;
+}
+.side-navbar{
+  width: 5%;
+  
+  background-color: #6b3669;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+}
+.top-icons,.bottom-icons{
+  height:20%;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-evenly;
+}
+.top-icons img, .bottom-icons img{
+  filter: invert(75%);
+}
+.right-navbar{
+  background-color: #602f6b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+.right-navbar span {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 300;
+}
+.right-navbar img{
+  filter: invert(100%);
+}
+.right-navbar .icons {
+  display: flex;
+  justify-content: space-around;
+  width: 10%;
+}
+.search{
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  border-bottom: 1px solid black;
+}
+.search input{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-weight: 700;
+}
+.search input::placeholder{
+  color: #ffffff;
+  font-weight: 500;
+}
+.search label img{
+  filter: invert(100%);
+}
+.chat{
+  background-color: #e6cde5;
+}
+.input{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #ffffff;
+}
+.input input{
+  border: none;
+  outline: none;
+}
+.input .icons{
+  display: flex;
+  justify-content: space-between;
+  width: 20%;
+}
+.input .icons img{
+  opacity: 0.5;
+}
+.input button{
+  padding: 5px 6px ;
+  background-color: dodgerblue;
+  border: none;
+  color: #ffffff;
+}
+.chat-body{
+  height: 77%;
+}

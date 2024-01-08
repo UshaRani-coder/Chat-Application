@@ -1,9 +1,9 @@
 import React from 'react'
 import videocallIcon from '../Assets/cam-recorder.png'
 import moreIcon from '../Assets/more.png'
-function RightNavbar() {
+function ChatNavbar() {
   return (
-    <div className='right-navbar'>
+    <div className='chat-navbar'>
       <span>Name</span>
       <div className="icons">
       <img src={videocallIcon} alt="video-call" width={'20px'}/>
@@ -13,4 +13,4 @@ function RightNavbar() {
   )
 }
 
-export default RightNavbar
+export default ChatNavbar

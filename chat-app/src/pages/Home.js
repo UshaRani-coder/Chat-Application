@@ -2,7 +2,7 @@ import React from 'react'
 import Sidebar from '../components/Sidebar'
 import Chat from '../components/Chat'
 import Header from '../components/Header'
-import SideNavbar from '../components/SideNavbar'
+import IconsNavbar from '../components/IconsNavbar'
 
 function Home() {
   return (
@@ -11,7 +11,7 @@ function Home() {
     <Header />
     </div>
       <div className="home-container">
-       <SideNavbar />
+       <IconsNavbar />
        <Sidebar />
        <Chat />
        

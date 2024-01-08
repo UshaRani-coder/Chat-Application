@@ -1,11 +1,11 @@
 import React from 'react'
-import RightNavbar from './RightNavbar'
+import ChatNavbar from './ChatNavbar'
 import Input from './Input'
 import ChatBody from './ChatBody'
 function Chat() {
   return (
     <div className='chat'>
-      <RightNavbar />
+      <ChatNavbar />
       <ChatBody />
       <Input />
     </div>

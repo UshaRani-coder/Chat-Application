@@ -1,11 +1,14 @@
 import React from 'react'
-import LeftNavbar from './LeftNavbar'
+import SidebarNavbar from './SidebarNavbar'
 import Search from './Search'
+import Chats from './Chats'
 function Sidebar() {
   return (
     <div className='sidebar'>
-      <LeftNavbar />
+      <SidebarNavbar />
       <Search />
+      <Chats />
+      
     </div>
   )
 }

@@ -5,9 +5,9 @@ import statusIcon from '../Assets/status.png'
 import star from '../Assets/star.png'
 import ArchiveIcon from '../Assets/box.png'
 import settingsIcon from '../Assets/settings.png'
-function SideNavbar() {
+function IconsNavbar() {
   return (
-    <div className='side-navbar'>
+    <div className='icons-navbar'>
       <div className="top-icons">
        <img src={chatIcon} alt="chats" width={"20px"} />
        <img src={phoneIcon} alt="phone" width={"20px"} />
@@ -22,4 +22,4 @@ function SideNavbar() {
   )
 }
 
-export default SideNavbar
+export default IconsNavbar

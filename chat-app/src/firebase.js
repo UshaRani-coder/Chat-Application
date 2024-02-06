@@ -4,8 +4,7 @@ import { getAuth } from 'firebase/auth'
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// our web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAi6Ch-rp6GaaGblZmlAsC-BRm6IgvJPAs",
   authDomain: "chat-app-afb62.firebaseapp.com",
@@ -16,8 +15,11 @@ const firebaseConfig = {
   measurementId: "G-Z50K360JLF"
 };
 
-// Initialize Firebase and export it 
+// Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
-export const storage = getStorage();
-export const db = getFirestore();
+// Initialize the authentication ()
+export const auth = getAuth(app);
+// Initialize the storage
+export const storage = getStorage(app);
+// Initialize the Firestore database
+export const db = getFirestore(app);

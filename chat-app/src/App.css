@@ -23,13 +23,14 @@
 }
 .form-wrapper{
   background-color: #9e509b;
-  height: 50%;
+  height: 55%;
   width: 200px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  color: #ffffff;
 }
 form{
   height: 70%;
@@ -39,12 +40,16 @@ form{
   justify-content: space-around;
 
 }
+.logo-sec{
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
 .logo{
-  color: #38419D;
-  font-family: 'Tilt Prism';
-  font-weight: bolder;
   font-size: 20px;
-  letter-spacing: 2px;
+color: #ffffff;
+font-family: 'Lobster', sans-serif;
+letter-spacing: 2px;
 }
 input{
   border: none;
@@ -67,11 +72,27 @@ label{
 }
 button{
   background-color:#E0B0FF;
-  color: #ffffff;
+  color:#9e509b;
   font-weight: 700;
   border-radius: 10px;
   padding:5px 30px;
   border: none;
+}
+.form-wrapper form input{
+  background-color: #9e509b;
+  color: #ffffff;
+  
+}
+.form-wrapper form input:focus{
+  
+  outline: none;
+}
+.form-wrapper form input::placeholder{
+  color: #ffffff;
+  opacity: 0.7;
+}
+.title{
+  color: aqua
 }
 /*@media screen and (min-width: )*/
 
@@ -233,13 +254,18 @@ align-items: center;
 gap: 5px;
 }
 
-.user-image,.chats-image,.receiver .img{
+.chats-image,.receiver .img{
   padding: 15px;
   border-radius: 50%;
   background-image: url('./Assets/user.jpg');
   background-position: center;
   background-size: 95% 100%;
   object-fit: cover;
+
+}
+.user-image{
+  padding: 15px;
+  border-radius: 50%;
 
 }
 .user :nth-child(1) span{
@@ -362,4 +388,18 @@ font-size: 12px;
 ::-webkit-scrollbar-thumb:active {
   background: rgb(68, 68, 68);
   border-radius: 10px;
+}
+.alert{
+  border: 1px solid red;
+  background-color: #FF3131;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 200px;
+  font-size: 10px;
+  
+}
+.user-image{
+  width: 50px;
 }

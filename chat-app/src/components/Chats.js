@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../Context/AuthContext.js'
 function Chats() {
+  const [chats,setChats] = useState()
+
+  const {currentUser} = useContext(AuthContext)
   return (
     <div className="chats-wrapper">
     <div className='chats'>

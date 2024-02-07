@@ -185,7 +185,7 @@ letter-spacing: 2px;
 }
 .search{
   display: flex;
-  justify-content: center;
+  padding-left: 20px;
   gap: 5px;
   border-bottom: 1px solid black;
 }
@@ -264,7 +264,7 @@ gap: 5px;
 
 }
 .user-image{
-  padding: 15px;
+  
   border-radius: 50%;
 
 }
@@ -402,4 +402,25 @@ font-size: 12px;
 }
 .user-image{
   width: 50px;
+}
+.userChat{
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+}
+.userChat:hover{
+  background-color: #6b3669;
+  cursor: pointer;
+  transition-duration: 1s;
+}
+.userChat img{
+  width: 40px;
+  border-radius: 50%;
+  height: 35px;
+}
+.userChatInfo span{
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 20px;
 }

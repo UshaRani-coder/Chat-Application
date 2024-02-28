@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../Context/AuthContext.js'
+import { ChatContext } from '../Context/ChatContext.js'
 
 function ChatBody() {
+  const {currentUser} = useContext(AuthContext)
+  const {data} = useContext(ChatContext)
   return (
     <div className="chat-body">
       <div className="receiver-chat-wrapper">
@@ -12,7 +16,7 @@ function ChatBody() {
     </div>
     </div>
     </div>
-    <div className="sender-chat-wrapper">
+     <div className="sender-chat-wrapper">
     <div className="sender-chat">
      <div className="sender">
       <div className="img"></div>
@@ -21,7 +25,7 @@ function ChatBody() {
      <div className="chatbox">I'm good!!</div>
     </div>
     </div>
-    <div className="receiver-chat-wrapper">
+   {/* <div className="receiver-chat-wrapper">
     <div className="receiver-chat">
       <div className="chatbox">Hey,How are you?</div>
       <div className="receiver">
@@ -74,7 +78,7 @@ function ChatBody() {
      </div>
      <div className="chatbox">I'm good!!</div>
     </div>
-    </div>
+    </div> */}
     </div>
   )
 }

@@ -3,12 +3,13 @@ import searchIcon from '../Assets/search.png'
 import { collection, query, where, getDocs, getDoc, setDoc,doc, serverTimestamp } from "firebase/firestore";
 import { db } from '../firebase';
 import {AuthContext} from "../Context/AuthContext.js"
+import { ChatContext } from '../Context/ChatContext.js';
 function Search() {
   const [searchUserName,setSearchUserName] = useState("")
   const [user, setUser] = useState(null)
   const [err,setErr] = useState(false)
   const {currentUser} = useContext(AuthContext);
-
+  const {dispatch} = useContext(ChatContext);
   async function handleSearch(){
     const usersRef = collection(db, "users");
     const q = query(
@@ -16,15 +17,15 @@ function Search() {
       where("displayName", "==", searchUserName)
       );
 
-      try{  
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-      setUser(doc.data())
-     });
-    } 
-    catch(error){
-      setErr(true)
+        setUser(doc.data());
+        setErr(false)
+    });
+
+    // If no documents were found, display an error message
+    if (querySnapshot.empty) {
+        setErr(true);
     }
 
   }
@@ -32,7 +33,7 @@ function Search() {
      e.code==="Enter" && handleSearch();
     }
   
-    async function handleSelect(){
+    async function handleSelect(user){
       //check whether the Chats in the firestore exists. If not, create
       const combinedId = 
       currentUser.uid > user.uid ? 
@@ -40,7 +41,7 @@ function Search() {
       user.uid + currentUser.uid;
       try{
         const res = await getDoc(doc(db,"chats",combinedId))
-        if(!res.exists){
+        if(!res.exists()){
           //create a chat in Chats collection
           await setDoc(doc(db,"chats",combinedId),{
             messages:[]
@@ -48,8 +49,7 @@ function Search() {
         }
 
         //create user Chats
-        console.log([combinedId + ".userInfo"])
-        console.log(currentUser.uid, user.uid)
+        //console.log(currentUser.uid, user.uid)
         await setDoc(doc(db,"userChats",currentUser.uid),{
         [combinedId + ".userInfo"]:{
           uid:user.uid,
@@ -58,7 +58,7 @@ function Search() {
         },
         [combinedId + ".date"]:serverTimestamp()
         });
-        console.log([combinedId + ".userInfo"])
+        
         await setDoc(doc(db,"userChats",user.uid),{
           [combinedId+".userInfo"]:{
             uid:currentUser.uid,
@@ -67,6 +67,8 @@ function Search() {
           },
           [combinedId+".date"]:serverTimestamp()
           });
+
+          dispatch({type:"changeUser",payload:user})
       }
       catch(error){
         setErr(true)
@@ -85,7 +87,7 @@ function Search() {
       />
     </div>
     {err && <span>"User Not Found!"</span>}
-    {user && <div className="userChat" onClick={handleSelect}>
+    {user && <div className="userChat" onClick={()=>{handleSelect(user)}}>
      <img src={user.photoURL} alt="" />
      <div className="userChatInfo">
       <span>{user.displayName}</span>

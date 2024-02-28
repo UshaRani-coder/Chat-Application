@@ -300,6 +300,15 @@ gap: 5px;
 }
 .chats-image{
   padding: 20px;
+  width: 40px;
+  height: 35px;
+  border-radius: 50%;
+}
+.chats img{
+  padding: 20px;
+  width: 40px;
+  height: 35px;
+  border-radius: 50%;
 }
 .user-chat-info span{
   color: #ffffff;

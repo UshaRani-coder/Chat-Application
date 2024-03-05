@@ -99,9 +99,6 @@ function Register() {
                 email: formData.email,
                 photoURL: downloadURL,
               });
-
-              //await setDoc(doc(db, "userChats", res.user.uid), {})
-
               //navigate to home page after successful sign-up
               navigate("/home");
             } catch (error) {
@@ -113,7 +110,6 @@ function Register() {
         setErr(true);
         // Handle Firebase authentication errors
         if (err.code === "auth/email-already-in-use") {
-          // Display a message to the user that the email is already in use
           console.error("Error: Email already in use.");
           document.querySelector(".alert").style.display = "block";
           document.querySelector(".alert").textContent =

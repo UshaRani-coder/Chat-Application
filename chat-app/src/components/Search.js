@@ -27,9 +27,10 @@ function Search() {
     if (querySnapshot.empty) {
         setErr(true);
     }
-
+   setSearchUserName("")
   }
     function handleKeyDown(e){
+      setSearchUserName("")
      e.code==="Enter" && handleSearch();
     }
   
@@ -49,7 +50,7 @@ function Search() {
         }
 
         //create user Chats
-        //console.log(currentUser.uid, user.uid)
+        console.log(currentUser.uid, user.uid)
         await setDoc(doc(db,"userChats",currentUser.uid),{
         [combinedId + ".userInfo"]:{
           uid:user.uid,

@@ -2,7 +2,7 @@ import React from 'react'
 import ChatNavbar from './ChatNavbar'
 import Input from './Input'
 import ChatBody from './ChatBody'
-function Chat() {
+function ChatContainer() {
   return (
     <div className='chat'>
       <ChatNavbar />
@@ -12,4 +12,4 @@ function Chat() {
   )
 }
 
-export default Chat
+export default ChatContainer

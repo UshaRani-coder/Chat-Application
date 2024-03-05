@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
  html, body{
     box-sizing: border-box;
     padding: 0;
@@ -12,7 +13,7 @@
     
   }
   
-.form-container{
+ .form-container{
   background-color:#E0B0FF;
   height: 100vh;
   width: 100%;
@@ -98,7 +99,7 @@ button{
 
 /* styling the Home-page */
 
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 .App{
   height: 100vh;
 }
@@ -283,7 +284,7 @@ gap: 5px;
   flex-direction: column;
   max-height: 70%;
   overflow-y: auto;
-
+  
 }
 
 .chats{
@@ -432,4 +433,79 @@ font-size: 12px;
   color: #ffffff;
   font-weight: 500;
   font-size: 20px;
+} 
+
+.welcome-page{
+  background-color:#DBDCFF;
+  display: flex;
+   height: 100vh;
+  justify-content: center;
+  align-items: center;
+  
+}
+.welcome-page-ctn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 13em;
+  border-radius: 20px;
+  box-shadow: 7px 7px 15px 0px rgba(0, 0, 0, 0.3), /* Dark shadow */
+   inset  -7px -7px 15px 0px rgba(255, 255, 255, 0.8); /* Light shadow */;
+}
+.welcome-img{
+  width: 100%;
+  height: 45%;
+  border-radius: 20px 20px 0px 0px;
+}
+.welcome-page-ctn div{
+  color: #ffffff;
+  background-color: #00264B;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius:0px 0px 20px 20px;
+}
+.welcome-page-ctn .content .heading{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.welcome-page-ctn .content .heading h4 {
+  font-family: "Kode Mono", monospace;
+  color:#057cfc;
+  font-size: 25px;
+  margin: 0px;
+  width: 150px;
+  display: flex;
+  gap: 5px;
+}
+.welcome-page-ctn .content .heading h5{
+ margin:10px 0px 0px 20px;
+  
+  width: 100%;
+  text-align: left;
+  letter-spacing: 2px;
+}
+.welcome-page-ctn .content .heading h5 span{
+  font-family: "Kode Mono", monospace;
+  color:#057cfc;
+  font-size: 20px;
+}
+.welcome-page-ctn .content p{
+  margin: 0px;
+  padding: 10px 0px;
+  text-align: center;
+  font-weight: 500;
+}
+.welcome-btn{
+  margin-bottom: 10px;
+  background-color: #057cfc;
+  color: #ffffff;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 10px 20px;
 }

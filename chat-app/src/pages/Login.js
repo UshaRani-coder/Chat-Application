@@ -1,28 +1,22 @@
-import logo from '../Assets/chat.png'
+import logo from "../Assets/chat.png";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import React from 'react'
-import { useState ,useEffect} from 'react';
-import { useNavigate, Link} from 'react-router-dom';
+import React from "react";
+import { useState} from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const [data, setData] = useState({
-    email :'',
-    password:''
-   })
-   // State to manage error handling
-   const [err,setErr] = useState(false);
-   const navigate = useNavigate();
-   
-   useEffect(() => {
-    // This useEffect will run after each render
-    console.log(data);
-  }, [data]); // Run the effect whenever data changes
+    email: "",
+    password: "",
+  });
+  // State to manage error handling
+  const [err, setErr] = useState(false);
+  const navigate = useNavigate();
 
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-  async function handleSubmit(e){
-     e.preventDefault();
-
-     //password validation
+    //password validation
     const validatePassword = (password) => {
       const minLength = 8;
       const hasUpperCase = /[A-Z]/.test(password);
@@ -38,61 +32,72 @@ function Login() {
       );
     };
 
-     if( data.email=='' || data.password==''){
-      document.querySelector('.alert').style.display = "block"
-      document.querySelector('.alert').textContent = "Please fill out the required fields in the form to complete your login"
+    if (data.email == "" || data.password == "") {
+      document.querySelector(".alert").style.display = "block";
+      document.querySelector(".alert").textContent =
+        "Please fill out the required fields in the form to complete your login";
+    } else if (!validatePassword(data.password)) {
+      document.querySelector(".alert").style.display = "block";
+      document.querySelector(".alert").textContent =
+        "Password must meet the complexity requirements.";
+    } else {
+      // signing in  with email and password
+      try {
+        const auth = getAuth();
+        await signInWithEmailAndPassword(auth, data.email, data.password);
+        navigate("/home");
+
+        setData({
+          email: "",
+          password: "",
+        });
+      } catch (err) {
+        console.error("Error during sign-in:", err);
+
+        setErr(true);
+
+        setData({
+          email: "",
+          password: "",
+        });
+      }
     }
-    else if (!validatePassword(data.password)) {
-      document.querySelector('.alert').style.display = "block";
-      document.querySelector('.alert').textContent = "Password must meet the complexity requirements.";
-    } 
-    else{
-     // signing in  with email and password
-     try{
-      const auth = getAuth();
-      await signInWithEmailAndPassword(auth, data.email, data.password)
-      navigate("/home")
-    
-       // Clear the form fields upon successful login
-    setData({
-      email: '',
-      password: '',
-    });
-    console.log(data)
-     }
-     catch(err){
-      console.error("Error during sign-in:", err);
-       // If there's an error in signing in, set error state to true
-       setErr(true)
-       // Clear the form fields even in case of error
-    setData({
-      email: '',
-      password: '',
-    });
-     } 
-     
-  } }
+  }
   return (
     <div>
       <div className="form-container">
-      <div className="alert" style={{display:"none"}}>alert</div>
+        <div className="alert" style={{ display: "none" }}>
+          alert
+        </div>
         <div className="form-wrapper">
           <div className="logo-sec">
-        <img src={logo} alt="" width={"25px"}/>
-          <span className='logo'>ChitChat</span>
+            <img src={logo} alt="" width={"25px"} />
+            <span className="logo">ChitChat</span>
           </div>
-          <span className='title'>Login</span>
+          <span className="title">Login</span>
           <form onSubmit={handleSubmit} autoComplete="off">
-            <input type="email" placeholder='email' value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
-            <input type="password" placeholder='password'  value={data.password} onChange={(e) => setData({ ...data, password: e.target.value })}/>
+            <input
+              type="email"
+              placeholder="email"
+              value={data.email}
+              onChange={(e) => setData({ ...data, email: e.target.value })}
+            />
+            <input
+              type="password"
+              placeholder="password"
+              value={data.password}
+              onChange={(e) => setData({ ...data, password: e.target.value })}
+            />
             <button>Sign In</button>
-          {/*{ err && <span>You got some error</span> }*/}
-            <p>You don't have an account? <Link to="/">Register</Link></p>
+            {/*{ err && <span>You got some error</span> }*/}
+            <p>
+              You don't have an account? <Link to="/register">Register</Link>
+            </p>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login;

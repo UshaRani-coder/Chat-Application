@@ -1,6 +1,6 @@
 import React from 'react'
 import Sidebar from '../components/Sidebar'
-import Chat from '../components/Chat'
+import ChatContainer from '../components/ChatContainer.js'
 import Header from '../components/Header'
 import IconsNavbar from '../components/IconsNavbar'
 
@@ -13,7 +13,7 @@ function Home() {
       <div className="home-container">
        <IconsNavbar />
        <Sidebar />
-       <Chat />
+       <ChatContainer />
        
       </div>
     </>

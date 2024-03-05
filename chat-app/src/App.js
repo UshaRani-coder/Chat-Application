@@ -1,6 +1,7 @@
 import Register from './pages/Register';
 import Login from './pages/Login';
-import Home from './pages/Home'
+import Home from './pages/Home';
+import Welcome from './pages/Welcome.js';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import { useContext } from 'react';
@@ -27,8 +28,9 @@ function App() {
           <Home />
         </ProtectedRoute>} 
         />
+         <Route index element={<Welcome/>}/>
         <Route path='login' element={<Login />}/>
-        <Route index element={<Register />}/>
+        <Route path='register' element={<Register />}/>
         </Route>
       </Routes>
       </BrowserRouter>

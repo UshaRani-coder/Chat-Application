@@ -4,7 +4,7 @@ function Header() {
   return (
     <div className='header'>
       <img src={logo} alt="" width={"25px"}/>
-      <span>ChitChat</span>
+      <span>ChatVerse</span>
     </div>
   )
 }

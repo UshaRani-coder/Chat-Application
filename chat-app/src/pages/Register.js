@@ -132,10 +132,6 @@ function Register() {
           alert
         </div>
         <div className="form-wrapper">
-          <div className="logo-sec">
-            <img src={logo} alt="" width={"25px"} />
-            <span className="logo">ChitChat</span>
-          </div>
           <span className="title">Register</span>
           <form onSubmit={handleSubmit} autoComplete="off">
             <input
@@ -177,7 +173,7 @@ function Register() {
             <button>Sign Up</button>
           </form>
           <p>
-            Do you have an account? <Link to="/login">Login</Link>
+            Do you have an account? <Link to="/login" style={{color:'#057cfc'}}>Login</Link>
           </p>
         </div>
       </div>

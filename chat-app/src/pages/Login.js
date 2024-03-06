@@ -70,10 +70,6 @@ function Login() {
           alert
         </div>
         <div className="form-wrapper">
-          <div className="logo-sec">
-            <img src={logo} alt="" width={"25px"} />
-            <span className="logo">ChitChat</span>
-          </div>
           <span className="title">Login</span>
           <form onSubmit={handleSubmit} autoComplete="off">
             <input
@@ -89,9 +85,8 @@ function Login() {
               onChange={(e) => setData({ ...data, password: e.target.value })}
             />
             <button>Sign In</button>
-            {/*{ err && <span>You got some error</span> }*/}
             <p>
-              You don't have an account? <Link to="/register">Register</Link>
+              You don't have an account? <Link to="/register" style={{color:'#057cfc'}}>Register</Link>
             </p>
           </form>
         </div>

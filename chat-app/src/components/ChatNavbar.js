@@ -1,19 +1,30 @@
-import React, { useContext } from 'react'
-import videocallIcon from '../Assets/cam-recorder.png'
-import moreIcon from '../Assets/more.png'
-import { ChatContext } from '../Context/ChatContext.js'
+import React, { useContext } from "react";
+//import videocallIcon from '../Assets/cam-recorder.png'
+//import moreIcon from '../Assets/more.png'
+import { ChatContext } from "../Context/ChatContext.js";
 
-function ChatNavbar() {
-  const {data} = useContext(ChatContext)
+function ChatNavbar(props) {
+  const { data } = useContext(ChatContext);
+  function goBack(){
+    props.setToggleChat((prev)=>!prev);
+  }
   return (
-    <div className='chat-navbar'>
+    <div className="chat-navbar">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 448 512"
+        width={"20px"}
+        onClick={goBack}
+      >
+        <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+      </svg>
+      <div className="user-info">
+      <img src={data.user?.photoURL} alt="second-person"  />
       <span>{data.user?.displayName}</span>
-      <div className="icons">
-      <img src={videocallIcon} alt="video-call" width={'20px'}/>
-      <img src={moreIcon} alt="more" width={'20px'} />
       </div>
+      
     </div>
-  )
+  );
 }
 
-export default ChatNavbar
+export default ChatNavbar;

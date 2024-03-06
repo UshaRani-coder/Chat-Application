@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
- html, body{
+@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
+html, body{
     box-sizing: border-box;
     padding: 0;
     margin: 0;
@@ -10,38 +11,39 @@
      max-height: 100vh;
      overflow-y: hidden;
     width: 100%;
-    
+    font-family: "Anta", sans-serif;
   }
   
  .form-container{
-  background-color:#E0B0FF;
-  height: 100vh;
-  width: 100%;
+  background-color:#DBDCFF;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+   height: 100vh;
+   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  
 }
 .form-wrapper{
-  background-color: #9e509b;
-  height: 55%;
-  width: 200px;
-  border-radius: 10px;
   display: flex;
+   background-color: #00264B; 
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  color: #ffffff;
+  width: 15em;
+  height: 70%;
+  border-radius: 20px;
+  box-shadow: 7px 7px 15px 0px rgba(0, 0, 0, 0.3), /* Dark shadow */
+    -7px -7px 15px 0px rgba(255, 255, 255, 0.8); /* Light shadow */;
+    padding-top: 20px;
+    color: #ffffff;
 }
 form{
   height: 70%;
   display: flex;
   flex-direction: column;
-  
   justify-content: space-around;
-
+  margin-top: 15px;
 }
-.logo-sec{
+/* .logo-sec{
   display: flex;
   align-items: center;
   padding-top: 10px;
@@ -51,15 +53,13 @@ form{
 color: #ffffff;
 font-family: 'Lobster', sans-serif;
 letter-spacing: 2px;
-}
-input{
+} */
+/* input{
   border: none;
   padding: 4px;
-  border-bottom: 1px solid #E0B0FF;
-}
-input::placeholder{
-  color: rgb(0,0,0,0.5);
-}
+  border-bottom: 1px solid #ffffff;
+} */
+
 label{
   display: flex;
   align-items: center;
@@ -72,17 +72,20 @@ label{
   font-size: 0.7em;
 }
 button{
-  background-color:#E0B0FF;
-  color:#9e509b;
+  background-color: #057cfc;
+  color: #ffffff;
   font-weight: 700;
   border-radius: 10px;
   padding:5px 30px;
   border: none;
 }
 .form-wrapper form input{
-  background-color: #9e509b;
+  background-color:#00264B;
   color: #ffffff;
-  
+  border: none;
+  padding: 4px;
+  border-bottom: 1px solid #ffffff;
+  font-family: "Anta", sans-serif;
 }
 .form-wrapper form input:focus{
   
@@ -93,9 +96,10 @@ button{
   opacity: 0.7;
 }
 .title{
-  color: aqua
+  font-family: "Kode Mono", monospace;
+  color:#057cfc;
+  font-size: 20px;
 }
-/*@media screen and (min-width: )*/
 
 /* styling the Home-page */
 
@@ -114,48 +118,64 @@ flex-direction: row;
   justify-content: center;
   gap: 5px;
   padding: 10px;
-  background-color: #6b3669;
+  background-color: #00264B;
 }
 .header span{
 font-size: 20px;
-color: #ffffff;
-font-family: 'Lobster', sans-serif;
-letter-spacing: 2px;
+font-family: "Kode Mono", monospace;
+ color:#057cfc;
+letter-spacing: 1px;
+
 }
 .sidebar{
-  background-color: #9e509b;
-  width: 30%;
-  
-  
+  background-color: #00264B;
+  width: 100%;
+  height: 100vh;
 }
-.chat{
-  width: 65%;
+@media screen and (min-width:768px){
+  .sidebar{
+    width: 50%;
+  }
+}
+.show{
+  width: 100%;
   border-radius: 20px;
+  display: block;
+  height: 100vh;
+  position: fixed;
+}
+@media screen and (min-width:768px){
+  .show{
+    position: static;
+  }
+}
+ .hide{
+  display: none;
 }
 .sidebar-navbar{
-  width: 100%;
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #ffffff;
-  background-color: #763568;
+  color:rgba(255, 255, 255, 0.6);
+  background-color: #00264B;
   padding: 10px;
 }
 .sidebar-navbar span{
   font-size: 20px;
   font-weight: 800;
 }
-.icons-navbar{
+/* .icons-navbar{
   width: 5%;
-  
+  display: none;
   background-color: #6b3669;
-  display: flex;
+  
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
 
-}
-.top-icons,.bottom-icons{
+} */
+/* .top-icons,.bottom-icons{
   height:20%;
   display: flex;
   flex-direction: column;
@@ -163,91 +183,135 @@ letter-spacing: 2px;
 }
 .top-icons img, .bottom-icons img{
   filter: invert(75%);
-}
+} */
 .chat-navbar{
-  background-color: #602f6b;
+  background-color:#ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 13.5px;
 }
 .chat-navbar span {
-  color: #ffffff;
+  color: black;
   font-size: 17px;
   font-weight: 300;
 }
-.chat-navbar img{
-  filter: invert(100%);
-}
-.chat-navbar .icons {
+
+
+.chat-navbar .user-info{
+  
   display: flex;
-  justify-content: space-around;
-  width: 10%;
+  align-items: center;
+  gap: 10px;
+}
+.chat-navbar .user-info img{
+width: 50px;
+border-radius: 50%;
+height: 35px;
 }
 .search{
   display: flex;
   padding-left: 20px;
   gap: 5px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
 }
 .search input{
   background-color: transparent;
   border: none;
   outline: none;
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 600;
+  font-family: "Anta", sans-serif;
+  
 }
 .search input::placeholder{
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.4);
   font-weight: 500;
+  font-family: "Anta", sans-serif;
 }
-.search label img{
-  filter: invert(100%);
-}
-.chat{
-  background-color: #e6cde5;
-}
+
+
 .chat-body{
-  max-height: 70%;
+  max-height: 90%;
+  background:#ccccff;
+  height: 90%;
+}
+.chat-body .default{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.chat-body .default p{
+  margin: 10px;
+}
+.chat-body .default :nth-child(2){
+  padding: 0px 20px;
+}
+@media screen and (min-width:1024px){
+.chat-body .default :nth-child(2){
+  padding: 0px 140px;
+}}
+@media screen and (max-width:767px){
+  .chat-body .default{
+  font-size: 10px;
+  }
+}
+.chat-body .default h3{
+  margin: 0px;
+}
+.chat-body .default h3 span{
+  font-family: "Kode Mono", monospace;
+  color:#057cfc;
+  font-size: 25px;
+  
+  width: 150px;
+ 
+ 
 }
 .input{
   display: flex;
   justify-content: space-between;
-  padding: 10px;
   background-color: #ffffff;
   position: fixed;
   bottom: 0;
-  width: 65%;
+ width: 100%;
 }
+@media screen and (min-width:768px){
+  .input{
+    width: 67%;
+  }
+}
+
 .input input{
   border: none;
   outline: none;
+  margin-left: 2%;
 }
 .input .icons{
   display: flex;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
-  width: 20%;
-  
+  cursor: pointer;
+  margin-right: 2%
 }
-.input .icons img{
-  opacity: 0.5;
+.input .icons label{
   cursor: pointer;
 }
 .input button{
   padding: 5px 6px ;
-  background-color: dodgerblue;
-  border-radius: 0px;
-  border: none;
-  color: #ffffff;
+ 
+  background-color: transparent;
   cursor: pointer;
 }
 .user{
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  gap: 5px;
-  width: 45%;
+  gap: 15px;
+  color: #ffffff;
 }
 .user :nth-child(1){
 display: flex;
@@ -265,23 +329,22 @@ gap: 5px;
 
 }
 .user-image{
-  
   border-radius: 50%;
-
+  width: 40px;
+  height: 35px;
 }
 .user :nth-child(1) span{
   font-size: 16px;
   font-weight: 400;
 }
-.logout{
-  background-color: brown;
-  padding: 3px 5px;
-  font-size: 10px;
+.logout,.chat-navbar svg{
   cursor: pointer;
 }
 .chats-wrapper{
   display: flex;
   flex-direction: column;
+  height: 70%;
+  background-color: #00264B;
   max-height: 70%;
   overflow-y: auto;
   
@@ -293,35 +356,36 @@ gap: 5px;
   align-items: center;
   gap: 12px;
   padding: 10px;
+  background-color: #00264B;
 }
 .chats:hover{
-  background-color: #6b3669;
+  background-color:#003060;
   cursor: pointer;
   transition-duration: 1s;
 }
 .chats-image{
-  padding: 20px;
+ 
   width: 40px;
   height: 35px;
   border-radius: 50%;
 }
 .chats img{
-  padding: 20px;
+ 
   width: 40px;
   height: 35px;
   border-radius: 50%;
 }
-.user-chat-info span{
-  color: #ffffff;
+.user-chat-info .user-name{
   font-weight: 500;
   font-size: 20px;
+  color: rgba(255, 255, 255);
 }
-.user-chat-info p{
+/* .user-chat-info p{
 margin: 0;
 color:#ffffff ;
 font-weight: 300;
 font-size: 12px;
-}
+} */
 
 /*chat-body*/
 .chat-body{
@@ -400,13 +464,15 @@ font-size: 12px;
   border-radius: 10px;
 }
 .alert{
-  border: 1px solid red;
-  background-color: #FF3131;
-  color: #ffffff;
+  border: 1px solid #e32636;
+  /* background-color: #e32636; */
+  color:#e32636;
+  box-shadow: 7px 7px 15px 0px rgba(0, 0, 0, 0.3), /* Dark shadow */
+  inset -7px -7px 15px 0px rgba(255, 255, 255, 0.8); /* Light shadow */;
   padding: 5px;
   border-radius: 10px;
   margin-bottom: 10px;
-  width: 200px;
+  width: 190px;
   font-size: 10px;
   
 }
@@ -418,12 +484,13 @@ font-size: 12px;
   padding: 10px;
   align-items: center;
   gap: 10px;
+
 }
-.userChat:hover{
-  background-color: #6b3669;
+ .userChat:hover{
+  background-color:#003060;
   cursor: pointer;
   transition-duration: 1s;
-}
+} 
 .userChat img{
   width: 40px;
   border-radius: 50%;
@@ -447,15 +514,30 @@ font-size: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 13em;
+  width: 15em;
   border-radius: 20px;
   box-shadow: 7px 7px 15px 0px rgba(0, 0, 0, 0.3), /* Dark shadow */
    inset  -7px -7px 15px 0px rgba(255, 255, 255, 0.8); /* Light shadow */;
+}
+@media screen and (min-width:768px){
+  .welcome-page-ctn{
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    height: 60%;
+  }
 }
 .welcome-img{
   width: 100%;
   height: 45%;
   border-radius: 20px 20px 0px 0px;
+}
+@media screen and (min-width:768px){
+  .welcome-img{
+    width: 50%;
+    height: 100%;
+    border-radius: 0px;
+  }
 }
 .welcome-page-ctn div{
   color: #ffffff;
@@ -466,10 +548,24 @@ font-size: 12px;
   align-items: center;
   border-radius:0px 0px 20px 20px;
 }
+@media screen and (min-width:768px){
+  .welcome-page-ctn div{
+    height: 100%;
+    border-radius: 0px 20px 20px 0px;
+    width: 100%;
+  }
+}
 .welcome-page-ctn .content .heading{
   display: flex;
   align-items: center;
   width: 100%;
+}
+@media screen and (min-width:768px){
+  .welcome-page-ctn .content .heading{
+    height: 30%;
+    width: 80%;
+  }
+  
 }
 .welcome-page-ctn .content .heading h4 {
   font-family: "Kode Mono", monospace;
@@ -499,7 +595,7 @@ font-size: 12px;
   font-weight: 500;
 }
 .welcome-btn{
-  margin-bottom: 10px;
+  margin: 20px 0px;
   background-color: #057cfc;
   color: #ffffff;
   display: flex;
@@ -508,4 +604,5 @@ font-size: 12px;
   cursor: pointer;
   font-weight: 500;
   padding: 10px 20px;
+  
 }

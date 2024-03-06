@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import searchIcon from '../Assets/search.png'
 import { collection, query, where, getDocs, getDoc, setDoc,doc, serverTimestamp } from "firebase/firestore";
 import { db } from '../firebase';
 import {AuthContext} from "../Context/AuthContext.js"
@@ -30,8 +29,10 @@ function Search() {
    setSearchUserName("")
   }
     function handleKeyDown(e){
-      setSearchUserName("")
-     e.code==="Enter" && handleSearch();
+      if (e.code === "Enter") {
+        handleSearch();
+        setSearchUserName(""); 
+      }
     }
   
     async function handleSelect(user){
@@ -78,16 +79,17 @@ function Search() {
     return (
       <>
     <div className='search'>
-        <label htmlFor="search-chat"><img src={searchIcon} alt="search" width={'20px'} /></label>
+        <label htmlFor="search-chat"><svg xmlns="http://www.w3.org/2000/svg" width={"20px"} fill='rgba(255, 255, 255, 0.4)' viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg></label>
       <input 
       type="text" 
       placeholder='Start or search a new chat' 
       id='search-chat' 
       onChange={e=>setSearchUserName(e.target.value)}
       onKeyDown={handleKeyDown}
+      value={searchUserName}
       />
     </div>
-    {err && <span>"User Not Found!"</span>}
+    {err && <span style={{color:'red'}}>"User Not Found!"</span>}
     {user && <div className="userChat" onClick={()=>{handleSelect(user)}}>
      <img src={user.photoURL} alt="" />
      <div className="userChatInfo">

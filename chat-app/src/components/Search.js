@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { collection, query, where, getDocs, getDoc, setDoc,doc, serverTimestamp } from "firebase/firestore";
+import { collection, query, where, getDocs, getDoc, setDoc,doc, serverTimestamp} from "firebase/firestore";
 import { db } from '../firebase';
 import {AuthContext} from "../Context/AuthContext.js"
 import { ChatContext } from '../Context/ChatContext.js';
@@ -9,25 +9,52 @@ function Search() {
   const [err,setErr] = useState(false)
   const {currentUser} = useContext(AuthContext);
   const {dispatch} = useContext(ChatContext);
-  async function handleSearch(){
+  // async function handleSearch(){
+  //   const usersRef = collection(db, "users");
+  //   const q = query(
+  //     usersRef, 
+  //     where("displayName", "==", searchUserName)
+  //     );
+
+  //     const querySnapshot = await getDocs(q)
+  //     querySnapshot.forEach((doc) => {
+  //       setUser(doc.data());
+  //       console.log(doc.data())
+  //       setErr(false)
+  //   });
+
+  //   // If no documents were found, display an error message
+  //   if (querySnapshot.empty) {
+  //       setErr(true);
+  //   }
+  //  setSearchUserName("")
+  // }
+  async function handleSearch() {
     const usersRef = collection(db, "users");
-    const q = query(
-      usersRef, 
-      where("displayName", "==", searchUserName)
-      );
-
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach((doc) => {
-        setUser(doc.data());
-        setErr(false)
+    const q = query(usersRef, where("displayName", "==", searchUserName));
+  
+    const querySnapshot = await getDocs(q);
+    //let foundUser = false;
+   
+    querySnapshot.forEach((doc) => {
+      setUser(doc.data())
+      console.log(doc.data());
+      
+     // foundUser = true;
     });
+  
 
+  
     // If no documents were found, display an error message
-    if (querySnapshot.empty) {
-        setErr(true);
-    }
-   setSearchUserName("")
+    // if (!foundUser) {
+    //   setErr(true);
+    // } else {
+    //   setErr(false);
+    // }
+  
+    setSearchUserName("");
   }
+  
     function handleKeyDown(e){
       if (e.code === "Enter") {
         handleSearch();
@@ -42,14 +69,17 @@ function Search() {
       currentUser.uid + user.uid : 
       user.uid + currentUser.uid;
       try{
-        const res = await getDoc(doc(db,"chats",combinedId))
-        if(!res.exists()){
+    //     const res = await getDoc(doc(db,"chats",combinedId))
+    //      // Log messages from the chat document
+    // console.log("Messages from chat:", res.data().messages);
+    //     if(!res.exists()){
           //create a chat in Chats collection
           await setDoc(doc(db,"chats",combinedId),{
             messages:[]
           })
-        }
-
+          
+        //}
+       
         //create user Chats
         console.log(currentUser.uid, user.uid)
         await setDoc(doc(db,"userChats",currentUser.uid),{
@@ -74,8 +104,10 @@ function Search() {
       }
       catch(error){
         setErr(true)
+        console.log("thesr's an error")
       }
     }
+    
     return (
       <>
     <div className='search'>

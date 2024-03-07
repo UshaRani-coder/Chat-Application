@@ -44,6 +44,7 @@ function Input() {
                 id: nanoid(),
                 text,
                 senderUid: currentUser.uid,
+               
                 time: Timestamp.now(),
                 img: downloadURL,
               }),
@@ -61,6 +62,7 @@ function Input() {
           id: nanoid(),
           text,
           senderUid: currentUser.uid,
+          
           time: Timestamp.now(),
         }),
       });

@@ -369,7 +369,7 @@ gap: 5px;
   height: 35px;
   border-radius: 50%;
 }
-.chats img{
+.chats img,.sender img, .receiver img{
  
   width: 40px;
   height: 35px;
@@ -379,6 +379,15 @@ gap: 5px;
   font-weight: 500;
   font-size: 20px;
   color: rgba(255, 255, 255);
+}
+.send-img{
+  width: 72.5%;
+}
+
+@media screen and (min-width:768px){
+  .send-img{
+    width: 50%;
+  }
 }
 /* .user-chat-info p{
 margin: 0;
@@ -395,28 +404,33 @@ font-size: 12px;
   padding: 10px;
   max-height: 73%;
   overflow-y: auto;
-}
-.receiver-chat{
-  display: flex;
-  align-items: center;
-  height: 70px;
-  gap: 10px;
-}
-.receiver-chat .chatbox{
-  background-color: #ff85a2;
-  padding: 5px 10px;
-  border-radius:10px 0px 10px 10px ;
-}
-.receiver .img{
-  padding: 15px;
+  padding-bottom: 20px;
 }
 .sender-chat{
   display: flex;
   align-items: center;
-  height: 70px;
   gap: 10px;
+  justify-content: right;
+  font-size: 15px;
+}
+.sender-chat .chatbox{
+  background-color: #ff85a2;
+  padding: 5px 10px;
+  border-radius:10px 0px 10px 10px ;
 }
 .sender .img{
+  padding: 15px;
+}
+.receiver-chat{
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  height: 70px;
+  gap: 10px;
+  font-size: 15px;
+}
+/* .receiver .img{
   background-image: url('./Assets/sender.jpg');
   padding: 15px;
   border-radius: 50%;
@@ -428,13 +442,21 @@ font-size: 12px;
 .receiver .time,.sender .time{
   filter: invert(40%);
   font-size: 12px;
+} */
+.time{
+  font-size: 10px;
 }
-.sender-chat .chatbox{
+.receiver-chat .chatbox{
   background-color: #8BC6FC;
   padding: 5px 10px;
   border-radius:0px 10px 10px 10px ;
 }
-.receiver-chat-wrapper{
+.sender-chat-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.sender-chat-wrapper{
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -605,4 +627,14 @@ font-size: 12px;
   font-weight: 500;
   padding: 10px 20px;
   
+}
+/* .last-messege{
+  font-size: 100px;
+  color: #ffffff;
+} */
+.default-chat-navbar-image{
+  width: 45px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: gray;
 }

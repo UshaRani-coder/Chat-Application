@@ -19,6 +19,20 @@ function Input() {
   const fileInputRef = useRef(null);
 
   async function handleSend() {
+    let messageText = text;
+    const fileType = img.type;
+    console.log(fileType)
+    let messageType;
+    if (fileType.startsWith('image/')) {
+      messageType = 'image';
+    } else if (fileType.startsWith('video/')) {
+      messageType = 'video'; 
+    } else if (fileType.startsWith('application/')) {
+      messageType = 'pdf'; 
+    }else if (fileType === 'text/plain'){
+      messageType = 'textPlain'
+    }
+
     if (img) {
       const storageRef = ref(storage, nanoid());
       const uploadTask = uploadBytesResumable(storageRef, img);
@@ -42,11 +56,11 @@ function Input() {
             await updateDoc(chatDocRef, {
               messages: arrayUnion({
                 id: nanoid(),
-                text,
+                text:messageText,
                 senderUid: currentUser.uid,
-               
                 time: Timestamp.now(),
-                img: downloadURL,
+                img: downloadURL || ' ',
+                type: messageType
               }),
             });
           } catch (error) {
@@ -60,10 +74,10 @@ function Input() {
       await updateDoc(chatDocRef, {
         messages: arrayUnion({
           id: nanoid(),
-          text,
+          text:messageText,
           senderUid: currentUser.uid,
-          
           time: Timestamp.now(),
+          type:messageType
         }),
       });
     }
@@ -108,7 +122,8 @@ function Input() {
           id="attach"
           style={{ display: "none" }}
           onChange={(e) => {
-            setImg(e.target.files[0]);
+             setImg(e.target.files[0]);
+
           }}
           ref={fileInputRef}
         />

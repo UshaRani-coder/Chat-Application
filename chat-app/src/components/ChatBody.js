@@ -97,9 +97,32 @@ function ChatBody() {
                   {message.text && (
                     <div className="chatbox">{message.text}</div>
                   )}
-                  {message.img && (
-                    <img src={message.img} alt="Image" className="send-img" />
-                  )}
+                  {message.img  && message.type === 'image' && (
+  <img src={message.img} alt="Image" className="send-img" />
+)}
+
+ {message.img  && message.type === 'video' && (
+  <video controls className="send-video">
+  <source src={message.img} type="video/mp4" />
+</video>
+)} 
+{message.img && message.type === 'pdf' && (
+  <iframe
+    src={message.img}
+    title="PDF"
+    width="80%"
+    height="200px"
+    className="pdf"
+    
+  />
+)}
+{message.img && message.type === 'textPlain' && (
+  <div>
+  <a href={message.img} target="_blank" rel="noopener noreferrer">
+    Download TXT File
+  </a>
+</div>
+)}
                   <div className="sender">
                     <img
                       src={

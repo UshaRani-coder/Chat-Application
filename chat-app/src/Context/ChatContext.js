@@ -1,7 +1,9 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import { AuthContext } from "./AuthContext.js";
 export const ChatContext = createContext();
+
 const ChatContextProvider = ({ children }) => {
+  const [isChatSelected,setIsChatSelected] = useState(false)
   const { currentUser } = useContext(AuthContext);
   const initialState = {
     ChatId: null,
@@ -24,7 +26,7 @@ const ChatContextProvider = ({ children }) => {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <ChatContext.Provider value={{ data: state, dispatch }}>
+    <ChatContext.Provider value={{ data: state, dispatch,isChatSelected,setIsChatSelected}}>
       {children}
     </ChatContext.Provider>
   );

@@ -9,18 +9,18 @@ function Home() {
   const [isWideScreen, setIsWideScreen] = useState(false);
 
   // Check window width on mount and resize
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= 768);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsWideScreen(window.innerWidth >= 768);
+  //   };
 
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
+  //   handleResize(); // Initial check
+  //   window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
   return (
     <>
       <div>{/* <Header /> */}</div>

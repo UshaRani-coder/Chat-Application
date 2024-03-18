@@ -6,25 +6,35 @@ import { ChatContext } from "../Context/ChatContext.js";
 function Chats(props) {
   const [chats, setChats] = useState([]);
   const { currentUser } = useContext(AuthContext);
-  const { dispatch } = useContext(ChatContext);
+  const { dispatch,setIsChatSelected } = useContext(ChatContext);
+  //const [isChatSelected,setIsChatSelected] = useState(false)
+  
 
   useEffect(() => {
+    let unsub;
     const getChats = () => {
-      const unsub = onSnapshot(
-        doc(db, "userChats", currentUser.uid),
-        (docSnapshot) => {
-          console.log(docSnapshot.data());
-          setChats(docSnapshot.data());
-          return () => {
-            unsub();
-          };
-        }
-      );
+        unsub = onSnapshot(
+            doc(db, "userChats", currentUser.uid),
+            (docSnapshot) => {
+                console.log(docSnapshot.data());
+                setChats(docSnapshot.data());
+            }
+        );
     };
-    currentUser.uid && getChats();
-  }, [currentUser.uid]);
+    if (currentUser.uid) {
+        getChats();
+    }
+    return () => {
+        if (unsub) {
+            unsub();
+        }
+    };
+}, [currentUser.uid]);
+
   function handleSelect(user) {
     dispatch({ type: "changeUser", payload: user });
+    setIsChatSelected(true)
+    
   }
   //console.log(Object.entries(chats));
   return (
@@ -34,7 +44,7 @@ function Chats(props) {
           // ?.sort((a, b) => {
           //   console.log(a, b);
           //  return  b[1].date - a[1].date;
-            
+
           // })
           .map((chat) => {
             const userData = chat[1];

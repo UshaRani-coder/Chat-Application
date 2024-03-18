@@ -5,6 +5,7 @@ import { AuthContext } from '../Context/AuthContext.js'
 //import userImg from '../Assets/userImg'
 function User() {
   const {currentUser} = useContext(AuthContext)
+  console.log(currentUser)
   return (
     <div className='user'>
     <div>

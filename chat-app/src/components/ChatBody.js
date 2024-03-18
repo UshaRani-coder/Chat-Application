@@ -1,121 +1,4 @@
-// import React, { useContext, useState ,useEffect} from 'react'
-// import { AuthContext } from '../Context/AuthContext.js'
-// import { ChatContext } from '../Context/ChatContext.js'
-// import { onSnapshot,doc } from 'firebase/firestore'
-// import { db } from '../firebase.js'
-// import logo from "../Assets/chat.png"
-// function ChatBody() {
-//   const {currentUser} = useContext(AuthContext)
-//   const {data} = useContext(ChatContext)
-//   const [messages,setMessages] = useState([])
-//   console.log(data.ChatId)
-//   useEffect(() => {
-//     const getMesseges = ()=>{
-//     const unsubscribe = onSnapshot(
-//       doc(db, "chats", data.ChatId),
-//       (docSnapshot) => {
-//         console.log("Messages from chat:", docSnapshot.data().messages);
-//         setMessages(docSnapshot.data().messages);
-//       }
-//     );
 
-//     return () => {
-//       unsubscribe();
-//     }
-//     };
-//     data.ChatId && getMesseges();
-//   }, [data.ChatId]);
-//   return (
-//     <div className="chat-body">
-//       {!messages && (
-//       <div className="default">
-//         <h3>🎉 Welcome to <span><img src={logo} alt="chat-logo" width={"20px"} />Chatverse</span>, {currentUser.displayName}🎉</h3>
-//         <p>We're excited to have you join us. Start chatting with your friends, share your thoughts, and make new connections.</p>
-//         <p>Happy chatting! 🚀</p>
-//       </div>
-//  )}
-
-//        {messages && messages.map((message)=>{
-//        <div className="receiver-chat-wrapper" key={message.senderUid}>
-//     <div className={`receiver-chat ${message.senderUid === currentUser.uid && 'owner'} `}>
-//       <div className="chatbox">{message.text}</div>
-//       <div className="receiver">
-//       {/* <div className="img"></div> */}
-//       <img src={message.senderUid === currentUser.uid && currentUser.photoURL} width={'25px'} alt="" />
-//       <span className="time">{message.time}</span>
-//     </div>
-//     </div>
-//     </div>
-//     })}
-//     {/*
-//      <div className="sender-chat-wrapper">
-//     <div className="sender-chat">
-//      <div className="sender">
-//       <div className="img"></div>
-//       <div className="time">Just now</div>
-//      </div>
-//      <div className="chatbox">I'm good!!</div>
-//     </div>
-//     </div> */}
-//    {/* <div className="receiver-chat-wrapper">
-//     <div className="receiver-chat">
-//       <div className="chatbox">Hey,How are you?</div>
-//       <div className="receiver">
-//       <div className="img"></div>
-//       <span className="time">Just now</span>
-//     </div>
-//     </div>
-//     </div>
-//     <div className="sender-chat-wrapper">
-//     <div className="sender-chat">
-//      <div className="sender">
-//       <div className="img"></div>
-//       <div className="time">Just now</div>
-//      </div>
-//      <div className="chatbox">I'm good!!</div>
-//     </div>
-//     </div>
-//     <div className="receiver-chat-wrapper">
-//     <div className="receiver-chat">
-//       <div className="chatbox">Hey,How are you?</div>
-//       <div className="receiver">
-//       <div className="img"></div>
-//       <span className="time">Just now</span>
-//     </div>
-//     </div>
-//     </div>
-//     <div className="sender-chat-wrapper">
-//     <div className="sender-chat">
-//      <div className="sender">
-//       <div className="img"></div>
-//       <div className="time">Just now</div>
-//      </div>
-//      <div className="chatbox">I'm good!!</div>
-//     </div>
-//     </div>
-//     <div className="receiver-chat-wrapper">
-//     <div className="receiver-chat">
-//       <div className="chatbox">Hey,How are you?</div>
-//       <div className="receiver">
-//       <div className="img"></div>
-//       <span className="time">Just now</span>
-//     </div>
-//     </div>
-//     </div>
-//     <div className="sender-chat-wrapper">
-//     <div className="sender-chat">
-//      <div className="sender">
-//       <div className="img"></div>
-//       <div className="time">Just now</div>
-//      </div>
-//      <div className="chatbox">I'm good!!</div>
-//     </div>
-//     </div> */}
-//     </div>
-//   )
-// }
-
-// export default ChatBody
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../Context/AuthContext.js";
 import { ChatContext } from "../Context/ChatContext.js";
@@ -125,11 +8,11 @@ import logo from "../Assets/chat.png";
 
 function ChatBody() {
   const { currentUser } = useContext(AuthContext);
-  const { data } = useContext(ChatContext);
+  const { data,isChatSelected,setIsChatSelected } = useContext(ChatContext);
   const [messages, setMessages] = useState([]);
-
+  
   useEffect(() => {
-    if (data && data.ChatId) {
+    if (isChatSelected && data && data.ChatId && currentUser) {
       const unsubscribe = onSnapshot(
         doc(db, "chats", data.ChatId),
         (docSnapshot) => {
@@ -142,18 +25,19 @@ function ChatBody() {
           }
         },
         (error) => {
-          console.error("Error fetching document:", error); // Log any error
+          console.error("Error fetching document:", error);
         }
       );
 
       return () => {
         unsubscribe();
-      };
+        setIsChatSelected(false)
+      }
     }
-  }, [data]);
- console.log(data.user)
+  }, [data.user,currentUser]);
+ 
   const formatTime = (seconds) => {
-    const date = new Date(seconds * 1000); // Convert seconds to milliseconds
+    const date = new Date(seconds * 1000);
     const hours = date.getHours();
     const minutes = date.getMinutes();
     return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
@@ -179,6 +63,7 @@ function ChatBody() {
   //   return `${dayOfWeekName}, ${_date},  ${year}`;
   // };
   return (
+    
     <div className="chat-body">
       {messages.length === 0 && (
         <div className="default">
@@ -196,12 +81,12 @@ function ChatBody() {
           </p>
           <p>Happy chatting! 🚀</p>
         </div>
-      )}
+      )} 
       {/* {messages&& messages.time&& messages.time.seconds&&<h5>{Day(messages.time.seconds)}</h5>} */}
       {messages.length > 0 &&
         messages.map((message) => (
           // message.senderUid === currentUser.uid && (
-          <>
+          <React.Fragment key={message.id}>
             {message.senderUid === currentUser.uid && (
               <div className="sender-chat-wrapper" key={message.id}>
                 <div
@@ -263,9 +148,10 @@ function ChatBody() {
             )}
 
             {/* ); */}
-          </>
+          </React.Fragment>
         ))}
     </div>
+  
   );
 }
 

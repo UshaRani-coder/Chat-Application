@@ -1,13 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 //import videocallIcon from '../Assets/cam-recorder.png'
 //import moreIcon from '../Assets/more.png'
 import { ChatContext } from "../Context/ChatContext.js";
 
 function ChatNavbar(props) {
-  const { data } = useContext(ChatContext);
-  function goBack(){
-    props.setToggleChat((prev)=>!prev);
+  const { data,isChatSelected,setIsChatSelected } = useContext(ChatContext);
+  const [userData, setUserData] = useState(" ");
+ 
+  useEffect(() => {
+    isChatSelected && setUserData(data.user);
+
+    return ()=>{
+      setIsChatSelected(false)
+    }
+  }, [data.user,isChatSelected]);
+
+  function goBack() {
+    props.setToggleChat((prev) => !prev);
   }
+
   return (
     <div className="chat-navbar">
       <svg
@@ -19,10 +30,13 @@ function ChatNavbar(props) {
         <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
       </svg>
       <div className="user-info">
-     {data.user?.photoURL ? <img src={data.user?.photoURL} alt="second-person"  />:<div className="default-chat-navbar-image"></div>}
-      <span>{data.user?.displayName}</span>
+        {userData?.photoURL ? (
+          <img src={userData?.photoURL} alt="second-person" />
+        ) : (
+          <div className="default-chat-navbar-image"></div>
+        )}
+        <span>{userData?.displayName}</span>
       </div>
-      
     </div>
   );
 }

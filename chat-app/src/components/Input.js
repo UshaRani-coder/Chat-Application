@@ -80,12 +80,18 @@ function Input() {
       
       [data.ChatId + ".date"] : serverTimestamp()
     })
-    setText("");
-    setImg("");
-    textInputRef.current.value = "";
-    fileInputRef.current.value = null;
+      setText("");
+      setImg(null);
+      textInputRef.current.value = "";
+      fileInputRef.current.value = null;
+    
   }
-
+  
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  } 
   return (
     <div className="input">
       <input
@@ -93,6 +99,7 @@ function Input() {
         placeholder="Type something..."
         autoFocus
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleKeyDown}
         ref={textInputRef}
       />
       <div className="icons">

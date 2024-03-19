@@ -7,9 +7,7 @@ function Chats(props) {
   const [chats, setChats] = useState([]);
   const { currentUser } = useContext(AuthContext);
   const { dispatch,setIsChatSelected } = useContext(ChatContext);
-  //const [isChatSelected,setIsChatSelected] = useState(false)
   
-
   useEffect(() => {
     let unsub;
     const getChats = () => {

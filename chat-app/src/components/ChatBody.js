@@ -1,4 +1,3 @@
-
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../Context/AuthContext.js";
 import { ChatContext } from "../Context/ChatContext.js";
@@ -8,9 +7,9 @@ import logo from "../Assets/chat.png";
 
 function ChatBody() {
   const { currentUser } = useContext(AuthContext);
-  const { data,isChatSelected,setIsChatSelected } = useContext(ChatContext);
+  const { data, isChatSelected, setIsChatSelected } = useContext(ChatContext);
   const [messages, setMessages] = useState([]);
-  
+
   useEffect(() => {
     if (isChatSelected && data && data.ChatId && currentUser) {
       const unsubscribe = onSnapshot(
@@ -31,11 +30,11 @@ function ChatBody() {
 
       return () => {
         unsubscribe();
-        setIsChatSelected(false)
-      }
+        setIsChatSelected(false);
+      };
     }
-  }, [data.user,currentUser]);
- 
+  }, [data.user, currentUser]);
+
   const formatTime = (seconds) => {
     const date = new Date(seconds * 1000);
     const hours = date.getHours();
@@ -63,7 +62,6 @@ function ChatBody() {
   //   return `${dayOfWeekName}, ${_date},  ${year}`;
   // };
   return (
-    
     <div className="chat-body">
       {messages.length === 0 && (
         <div className="default">
@@ -81,7 +79,7 @@ function ChatBody() {
           </p>
           <p>Happy chatting! 🚀</p>
         </div>
-      )} 
+      )}
       {/* {messages&& messages.time&& messages.time.seconds&&<h5>{Day(messages.time.seconds)}</h5>} */}
       {messages.length > 0 &&
         messages.map((message) => (
@@ -90,39 +88,38 @@ function ChatBody() {
             {message.senderUid === currentUser.uid && (
               <div className="sender-chat-wrapper" key={message.id}>
                 <div
-                  className={`sender-chat ${
-                    message.senderUid === currentUser.uid ? "owner" : ""
-                  }`}
+                  className="sender-chat" 
                 >
                   {message.text && (
                     <div className="chatbox">{message.text}</div>
                   )}
-                  {message.img  && message.type === 'image' && (
-  <img src={message.img} alt="Image" className="send-img" />
-)}
+                  {message.img && message.type === "image" && (
+                    <img src={message.img} alt="Image" className="send-img" />
+                  )}
 
- {message.img  && message.type === 'video' && (
-  <video controls className="send-video">
-  <source src={message.img} type="video/mp4" />
-</video>
-)} 
-{message.img && message.type === 'pdf' && (
-  <iframe
-    src={message.img}
-    title="PDF"
-    width="80%"
-    height="200px"
-    className="pdf"
-    
-  />
-)}
-{message.img && message.type === 'textPlain' && (
-  <div>
-  <a href={message.img} target="_blank" rel="noopener noreferrer">
-    Download TXT File
-  </a>
-</div>
-)}
+                  {message.img && message.type === "video" && (
+                    <video controls className="send-video">
+                      <source src={message.img} type="video/mp4" />
+                    </video>
+                  )}
+                  {message.img && message.type === "pdf" && (
+                    <iframe
+                      src={message.img}
+                      title="PDF"
+                      width="80%"
+                      height="200px"
+                      className="pdf"
+                    />
+                  )}
+                  {message.img && message.type === "textPlain" && (
+                    <div>
+                      <a
+                        href={message.img}
+                      >
+                        Download TXT File
+                      </a>
+                    </div>
+                  )}
                   <div className="sender">
                     <img
                       src={
@@ -143,15 +140,16 @@ function ChatBody() {
             {/* receiver messeges */}
             {message.senderUid === data.user.uid && (
               <div className="receiver-chat-wrapper" key={message.id}>
+               
                 <div className="receiver-chat">
                   {message.text && (
                     <div className="chatbox">{message.text}</div>
                   )}
-                  
+
                   {message.img && (
                     <img src={message.img} alt="Image" className="send-img" />
                   )}
-                  
+
                   <div className="receiver">
                     <img
                       src={
@@ -164,8 +162,8 @@ function ChatBody() {
                     />
                   </div>
                   <span className="time">
-                      {formatTime(message.time.seconds)}
-                    </span>
+                    {formatTime(message.time.seconds)}
+                  </span>
                 </div>
               </div>
             )}
@@ -174,7 +172,6 @@ function ChatBody() {
           </React.Fragment>
         ))}
     </div>
-  
   );
 }
 

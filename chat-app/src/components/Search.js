@@ -16,9 +16,10 @@ import { ChatContext } from "../Context/ChatContext.js";
 function Search() {
   const [searchUserName, setSearchUserName] = useState("");
   const [users, setUsers] = useState([]);
+  
   const [err, setErr] = useState(false);
   const { currentUser } = useContext(AuthContext);
-  const { dispatch } = useContext(ChatContext);
+  const { dispatch} = useContext(ChatContext);
   async function handleSearch() {
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("displayName", "==", searchUserName));
@@ -40,7 +41,7 @@ function Search() {
     setSearchUserName("");
     return unsubscribe;
   }
-
+  
   function handleKeyDown(e) {
     if (e.code === "Enter") {
       handleSearch();
@@ -70,14 +71,14 @@ function Search() {
         [combinedId + ".date"]: serverTimestamp(),
       });
 
-      await setDoc(doc(db, "userChats", user.uid), {
-        [combinedId + ".userInfo"]: {
-          uid: currentUser.uid,
-          displayName: currentUser.displayName,
-          photoURL: currentUser.photoURL,
-        },
-        [combinedId + ".date"]: serverTimestamp(),
-      });
+      // await setDoc(doc(db, "userChats", user.uid), {
+      //   [combinedId + ".userInfo"]: {
+      //     uid: currentUser.uid,
+      //     displayName: currentUser.displayName,
+      //     photoURL: currentUser.photoURL,
+      //   },
+      //   [combinedId + ".date"]: serverTimestamp(),
+      // });
 
       dispatch({ type: "changeUser", payload: user });
     } catch (error) {

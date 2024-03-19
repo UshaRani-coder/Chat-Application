@@ -4,10 +4,19 @@ import { ChatContext } from "../Context/ChatContext.js";
 import { onSnapshot, doc } from "firebase/firestore";
 import { db } from "../firebase.js";
 import logo from "../Assets/chat.png";
+import EmojiPickerComponent from "./EmojiPickerComponent.js";
 
 function ChatBody() {
   const { currentUser } = useContext(AuthContext);
-  const { data, isChatSelected, setIsChatSelected } = useContext(ChatContext);
+  const {
+    data,
+    isChatSelected,
+    setIsChatSelected,
+    showEmojis,
+    setIsEmojiSelected,
+    textInputRef,
+    text
+  } = useContext(ChatContext);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -61,6 +70,11 @@ function ChatBody() {
   //   const dayOfWeekName = daysOfWeek[dayOfWeekIndex];
   //   return `${dayOfWeekName}, ${_date},  ${year}`;
   // };
+
+  function handleEmojiClick(event) {
+    setIsEmojiSelected(prev=>prev===null?event.emoji:null);
+    textInputRef.current.value = text+event.emoji;
+  }
   return (
     <div className="chat-body">
       {messages.length === 0 && (
@@ -87,9 +101,7 @@ function ChatBody() {
           <React.Fragment key={message.id}>
             {message.senderUid === currentUser.uid && (
               <div className="sender-chat-wrapper" key={message.id}>
-                <div
-                  className="sender-chat" 
-                >
+                <div className="sender-chat">
                   {message.text && (
                     <div className="chatbox">{message.text}</div>
                   )}
@@ -113,11 +125,7 @@ function ChatBody() {
                   )}
                   {message.img && message.type === "textPlain" && (
                     <div>
-                      <a
-                        href={message.img}
-                      >
-                        Download TXT File
-                      </a>
+                      <a href={message.img}>Download TXT File</a>
                     </div>
                   )}
                   <div className="sender">
@@ -140,7 +148,6 @@ function ChatBody() {
             {/* receiver messeges */}
             {message.senderUid === data.user.uid && (
               <div className="receiver-chat-wrapper" key={message.id}>
-               
                 <div className="receiver-chat">
                   {message.text && (
                     <div className="chatbox">{message.text}</div>
@@ -171,6 +178,9 @@ function ChatBody() {
             {/* ); */}
           </React.Fragment>
         ))}
+      {messages.length > 0 && showEmojis && (
+        <EmojiPickerComponent onEmojiClick={handleEmojiClick} />
+      )}
     </div>
   );
 }

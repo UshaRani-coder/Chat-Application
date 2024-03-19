@@ -1,9 +1,14 @@
-import { createContext, useContext, useReducer, useState } from "react";
+import { createContext, useContext, useReducer, useState,useRef } from "react";
 import { AuthContext } from "./AuthContext.js";
 export const ChatContext = createContext();
 
 const ChatContextProvider = ({ children }) => {
-  const [isChatSelected,setIsChatSelected] = useState(false)
+  const [isChatSelected, setIsChatSelected] = useState(false);
+  const [isEmojiSelected, setIsEmojiSelected] = useState(null);
+  const [text, setText] = useState("");
+  const textInputRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const [showEmojis, setShowEmojis] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const initialState = {
     ChatId: null,
@@ -26,7 +31,22 @@ const ChatContextProvider = ({ children }) => {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <ChatContext.Provider value={{ data: state, dispatch,isChatSelected,setIsChatSelected}}>
+    <ChatContext.Provider
+      value={{
+        data: state,
+        dispatch,
+        isChatSelected,
+        setIsChatSelected,
+        isEmojiSelected,
+        setIsEmojiSelected,
+        showEmojis,
+        setShowEmojis,
+        text,
+        setText,
+        textInputRef,
+        fileInputRef
+      }}
+    >
       {children}
     </ChatContext.Provider>
   );

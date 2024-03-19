@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
-import attachIcon from "../Assets/attach.png";
-import addImage from "../Assets/upload.png";
+import React, {  useState } from "react";
+
 import {
   Timestamp,
   arrayUnion,
@@ -18,19 +17,28 @@ import { ChatContext } from "../Context/ChatContext.js";
 
 function Input() {
   const { currentUser } = useContext(AuthContext);
-  const { data } = useContext(ChatContext);
-  const [text, setText] = useState("");
+  const {
+    data,
+    setShowEmojis,
+    isEmojiSelected,
+    setIsEmojiSelected,
+    text,
+    setText,
+    textInputRef,
+    fileInputRef,
+  } = useContext(ChatContext);
+
   const [img, setImg] = useState(null);
-  const [imgPreview,setImgPreview] = useState(null);
-  const textInputRef = useRef(null);
-  const fileInputRef = useRef(null);
+  const [imgPreview, setImgPreview] = useState(null);
+  // const textInputRef = useRef(null);
+  // const fileInputRef = useRef(null);
 
   async function handleSend() {
+     const messageText = isEmojiSelected ? text + isEmojiSelected : text;
     let messageType;
     if (img) {
-    
       const fileType = img.type;
-      
+
       if (fileType.startsWith("image/")) {
         messageType = "image";
       } else if (fileType.startsWith("video/")) {
@@ -62,14 +70,14 @@ function Input() {
             await updateDoc(chatDocRef, {
               messages: arrayUnion({
                 id: nanoid(),
-                text,
+                text: messageText,
                 senderUid: currentUser.uid,
                 time: Timestamp.now(),
                 img: downloadURL || " ",
                 type: messageType,
               }),
             });
-            setImgPreview(null)
+            setImgPreview(null);
           } catch (error) {
             console.error("Error:", error.message);
           }
@@ -81,15 +89,14 @@ function Input() {
       await updateDoc(chatDocRef, {
         messages: arrayUnion({
           id: nanoid(),
-          text,
+          text: messageText,
           senderUid: currentUser.uid,
           time: Timestamp.now(),
-         
         }),
       });
       textInputRef.current.value = "";
       fileInputRef.current.value = null;
-      setImgPreview(null)
+      setImgPreview(null);
     }
     // await updateDoc(doc(db, "userChats", currentUser.uid), {
     //   [data.ChatId + ".lastMessege"]: {
@@ -104,6 +111,10 @@ function Input() {
 
     //   [data.ChatId + ".date"]: serverTimestamp(),
     // });
+    setIsEmojiSelected(null);
+    setShowEmojis(false);
+    setText("");
+    setImg(null);
   }
 
   function handleKeyDown(e) {
@@ -115,7 +126,7 @@ function Input() {
   function handleImageSelect(e) {
     const selectedImage = e.target.files[0];
     setImg(selectedImage);
-    
+
     // Display image preview
     const reader = new FileReader();
     reader.onload = function (event) {
@@ -124,9 +135,7 @@ function Input() {
     reader.readAsDataURL(selectedImage);
   }
   return (
-
     <div className="input">
-      
       <input
         type="text"
         placeholder="Type something..."
@@ -155,12 +164,23 @@ function Input() {
             <path d="M364.2 83.8c-24.4-24.4-64-24.4-88.4 0l-184 184c-42.1 42.1-42.1 110.3 0 152.4s110.3 42.1 152.4 0l152-152c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-152 152c-64 64-167.6 64-231.6 0s-64-167.6 0-231.6l184-184c46.3-46.3 121.3-46.3 167.6 0s46.3 121.3 0 167.6l-176 176c-28.6 28.6-75 28.6-103.6 0s-28.6-75 0-103.6l144-144c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-144 144c-6.7 6.7-6.7 17.7 0 24.4s17.7 6.7 24.4 0l176-176c24.4-24.4 24.4-64 0-88.4z" />
           </svg>
         </label>
-        <svg
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
           width={"20px"}
         >
           <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+        </svg> */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          width={"20px"}
+          onClick={() => setShowEmojis((prevState) => !prevState)}
+        >
+          <path
+            fill="#FFD43B"
+            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
+          />
         </svg>
         <button onClick={handleSend}>
           <svg
@@ -174,7 +194,6 @@ function Input() {
         </button>
       </div>
     </div>
-    
   );
 }
 

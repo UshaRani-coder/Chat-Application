@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../Context/AuthContext.js";
 import { ChatContext } from "../Context/ChatContext.js";
 import { onSnapshot, doc } from "firebase/firestore";
@@ -6,7 +6,8 @@ import { db } from "../firebase.js";
 import logo from "../Assets/chat.png";
 import EmojiPickerComponent from "./EmojiPickerComponent.js";
 
-function ChatBody() {
+function ChatBody({loader}) {
+  const ref = useRef();
   const { currentUser } = useContext(AuthContext);
   const {
     data,
@@ -19,6 +20,7 @@ function ChatBody() {
   } = useContext(ChatContext);
   const [messages, setMessages] = useState([]);
 
+ 
   useEffect(() => {
     if (isChatSelected && data && data.ChatId && currentUser) {
       const unsubscribe = onSnapshot(
@@ -30,8 +32,10 @@ function ChatBody() {
           console.log("Messages from chat:", messagesData);
           if (messagesData) {
             setMessages(messagesData);
+            scrollToBottom();
           }
         },
+
         (error) => {
           console.error("Error fetching document:", error);
         }
@@ -43,6 +47,9 @@ function ChatBody() {
       };
     }
   }, [data.user, currentUser]);
+  const scrollToBottom = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const formatTime = (seconds) => {
     const date = new Date(seconds * 1000);
@@ -95,7 +102,8 @@ function ChatBody() {
         </div>
       )}
       {/* {messages&& messages.time&& messages.time.seconds&&<h5>{Day(messages.time.seconds)}</h5>} */}
-      {messages.length > 0 &&
+      {loader && <div className="loader"></div>}
+      {!loader && messages.length > 0 &&
         messages.map((message) => (
           // message.senderUid === currentUser.uid && (
           <React.Fragment key={message.id}>
@@ -104,13 +112,14 @@ function ChatBody() {
                 <div className="sender-chat">
                   {message.text && (
                     <div className="chatbox">{message.text}</div>
+
                   )}
                   {message.img && message.type === "image" && (
                     <img src={message.img} alt="Image" className="send-img" />
                   )}
 
                   {message.img && message.type === "video" && (
-                    <video controls className="send-video">
+                    <video controls className="send-video" width="220" height="150">
                       <source src={message.img} type="video/mp4" />
                     </video>
                   )}
@@ -177,10 +186,14 @@ function ChatBody() {
 
             {/* ); */}
           </React.Fragment>
+
+         
         ))}
+         {/* {loader && <div className="loader">Loading...</div>} */}
       {messages.length > 0 && showEmojis && (
         <EmojiPickerComponent onEmojiClick={handleEmojiClick} />
       )}
+      <div ref={ref}></div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
+import Resizer from "react-image-file-resizer";
 
 import {
   Timestamp,
@@ -15,7 +16,7 @@ import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext.js";
 import { ChatContext } from "../Context/ChatContext.js";
 
-function Input() {
+function Input({setLoader}) {
   const { currentUser } = useContext(AuthContext);
   const {
     data,
@@ -30,26 +31,50 @@ function Input() {
 
   const [img, setImg] = useState(null);
   const [imgPreview, setImgPreview] = useState(null);
-  // const textInputRef = useRef(null);
-  // const fileInputRef = useRef(null);
+  // const [loader , setLoader] = useState(false)
+
+  const resizeImage = async (file, maxWidth, maxHeight) => {
+    const resizedFile = await new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        maxWidth,
+        maxHeight,
+        "JPEG", // Output format (JPEG, PNG, etc.)
+        100, // Quality (0 to 100)
+        0, // Rotation angle (0, 90, 180, 270)
+        (resizedFile) => {
+          console.log("Image resized successfully:", resizedFile);
+          resolve(resizedFile);
+        },
+        "file" // Output type ('file', 'blob', 'base64')
+      );
+    });
+
+    return resizedFile;
+  };
 
   async function handleSend() {
-     const messageText = isEmojiSelected ? text + isEmojiSelected : text;
+    let uploadTask;
+    const storageRef = ref(storage, nanoid());
+    const messageText = isEmojiSelected ? text + isEmojiSelected : text;
     let messageType;
     if (img) {
       const fileType = img.type;
 
       if (fileType.startsWith("image/")) {
         messageType = "image";
+        const resizedImage = await resizeImage(img, 500, 500);
+        uploadTask = uploadBytesResumable(storageRef, resizedImage);
       } else if (fileType.startsWith("video/")) {
         messageType = "video";
+        uploadTask = uploadBytesResumable(storageRef, img);
       } else if (fileType.startsWith("application/")) {
         messageType = "pdf";
+        uploadTask = uploadBytesResumable(storageRef, img);
       } else if (fileType === "text/plain") {
         messageType = "textPlain";
+        uploadTask = uploadBytesResumable(storageRef, img);
       }
-      const storageRef = ref(storage, nanoid());
-      const uploadTask = uploadBytesResumable(storageRef, img);
 
       uploadTask.on(
         "state_changed",
@@ -58,6 +83,13 @@ function Input() {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
+
+          if(progress<100){
+            setLoader(true)
+          }
+          else{
+            setLoader(false)
+          }
         },
         (error) => {
           console.log("There's an error during upload", error.message);
@@ -164,13 +196,6 @@ function Input() {
             <path d="M364.2 83.8c-24.4-24.4-64-24.4-88.4 0l-184 184c-42.1 42.1-42.1 110.3 0 152.4s110.3 42.1 152.4 0l152-152c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-152 152c-64 64-167.6 64-231.6 0s-64-167.6 0-231.6l184-184c46.3-46.3 121.3-46.3 167.6 0s46.3 121.3 0 167.6l-176 176c-28.6 28.6-75 28.6-103.6 0s-28.6-75 0-103.6l144-144c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-144 144c-6.7 6.7-6.7 17.7 0 24.4s17.7 6.7 24.4 0l176-176c24.4-24.4 24.4-64 0-88.4z" />
           </svg>
         </label>
-        {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          width={"20px"}
-        >
-          <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-        </svg> */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"

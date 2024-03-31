@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Image from "../Assets/image.png";
-import logo from "../Assets/chat.png";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
 import { storage } from "../firebase";
@@ -8,8 +7,37 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
+import Resizer from 'react-image-file-resizer';
+//import ResizeImage from '../imageUtils';
 
 function Register() {
+  const resizeImage = async (file, maxWidth, maxHeight) => {
+    try {
+      console.log('Resizing image...');
+      const resizedFile = await new Promise((resolve) => {
+        Resizer.imageFileResizer(
+          file,
+          maxWidth,
+          maxHeight,
+          'JPEG', // Output format (JPEG, PNG, etc.)
+          100,    // Quality (0 to 100)
+          0,      // Rotation angle (0, 90, 180, 270)
+          (resizedFile) => {
+            console.log('Image resized successfully:', resizedFile);
+            resolve(resizedFile);
+          },
+          'file'  // Output type ('file', 'blob', 'base64')
+        );
+      });
+      console.log('Resized image:', resizedFile);
+      return resizedFile;
+    } catch (error) {
+      console.error('Error resizing image:', error);
+      return null;
+    }
+  };
+  
+
   //const [loader,setLoader] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -63,8 +91,12 @@ function Register() {
         // Reference to Firebase Storage using the user's id
         const storageRef = ref(storage, res.user.uid);
         // Creating an upload task for the selected file
-        const uploadTask = uploadBytesResumable(storageRef, formData.file);
-
+        const resizedImage = await resizeImage(formData.file, 500, 500); 
+        const uploadTask = uploadBytesResumable(storageRef, resizedImage);
+        // console.log(formData.file)
+        
+        // console.log(resizedImage)
+        
         // Handling events during the upload task
         uploadTask.on(
           "state_changed",
@@ -85,7 +117,7 @@ function Register() {
               // If upload is successful, get the download URL
               const downloadURL = await getDownloadURL(storageRef);
               console.log(`The url is ${downloadURL}`);
-
+             
               // Updating user profile with name and photoURL
               await updateProfile(res.user, {
                 displayName: formData.name,

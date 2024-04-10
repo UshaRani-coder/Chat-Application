@@ -1,82 +1,61 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/AuthContext.js";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, collection } from "firebase/firestore";
 import { db } from "../firebase.js";
 import { ChatContext } from "../Context/ChatContext.js";
+
 function Chats(props) {
   const [chats, setChats] = useState([]);
   const { currentUser } = useContext(AuthContext);
-  const { dispatch,setIsChatSelected } = useContext(ChatContext);
+  const { dispatch, setIsChatSelected } = useContext(ChatContext);
   
+
   useEffect(() => {
     let unsub;
-    const getChats = () => {
-        unsub = onSnapshot(
-            doc(db, "userChats", currentUser.uid),
-            (docSnapshot) => {
-                console.log(docSnapshot.data());
-                setChats(docSnapshot.data());
-            }
-        );
+    const getChats =  () => {
+      const collectionRef = collection(db, "userChats");
+      unsub = onSnapshot(collectionRef, (querySnapshot) => {
+        const chatArr = [];
+        querySnapshot.forEach((doc) => {
+          chatArr.push(doc.data());
+        });
+        setChats(chatArr); 
+  
+      });
     };
-    if (currentUser.uid) {
-        getChats();
-    }
+
+    currentUser.uid && getChats();
+
     return () => {
-        if (unsub) {
-            unsub();
-        }
+      if (unsub) {
+        unsub();
+      }
     };
-}, [currentUser.uid]);
+  }, [currentUser.uid]);
 
   function handleSelect(user) {
     dispatch({ type: "changeUser", payload: user });
-    setIsChatSelected(true)
-    
+    setIsChatSelected(true);
   }
-  //console.log(Object.entries(chats));
+
   return (
     <div className="chats-wrapper">
-      {chats &&
-        Object.entries(chats)
-          // ?.sort((a, b) => {
-          //   console.log(a, b);
-          //  return  b[1].date - a[1].date;
-
-          // })
-          .map((chat) => {
-            const userData = chat[1];
-            if (
-              userData &&
-              userData.uid &&
-              userData.photoURL &&
-              userData.displayName
-            ) {
-              return (
-                <div
-                  className="chats"
-                  key={chat[0]}
-                  onClick={() => {
-                    handleSelect(userData);
-                  }}
-                >
-                  <img src={userData.photoURL} alt="" />
-                  <div
-                    className="user-chat-info"
-                    onClick={() => {
-                      props.setToggleChat((prevState) => !prevState);
-                    }}
-                  >
-                    <span className="user-name">{userData.displayName}</span>
-                    {/* {console.log(userData.lastMessage?.text)} */}
-                    {/* <span className="last-messege">{userData.lastMessage?.text}</span> */}
-                  </div>
-                </div>
-              );
-            }
-          })}
+      {chats.map((chat, index) => {
+        const userInfoKey = Object.keys(chat).find(key => key.includes("userInfo_"));
+        const userInfo = userInfoKey ? chat[userInfoKey] : null;
+        console.log(userInfoKey,chat)
+        return userInfoKey ? (
+          <div className="chats" key={index} onClick={() => handleSelect(userInfo)}>
+            <img src={userInfo.photoURL} alt="" />
+            <div className="user-chat-info" onClick={() => props.setToggleChat((prevState) => !prevState)}>
+              <span className="user-name">{userInfo.displayName}</span>
+            </div>
+          </div>
+        ) : null;
+      })}
     </div>
   );
+  
 }
 
 export default Chats;

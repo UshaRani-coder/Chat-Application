@@ -8,6 +8,7 @@ import {
   doc,
   serverTimestamp,
   onSnapshot,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../Context/AuthContext.js";
@@ -63,24 +64,25 @@ function Search() {
       }
 
       await setDoc(doc(db, "userChats", currentUser.uid), {
-        [combinedId + ".userInfo"]: {
+        [`userInfo_${combinedId}`]: {
           uid: user.uid,
           displayName: user.displayName,
           photoURL: user.photoURL,
         },
-        [combinedId + ".date"]: serverTimestamp(),
+        [`date_${combinedId}`]: serverTimestamp(),
       });
 
       // await setDoc(doc(db, "userChats", user.uid), {
-      //   [combinedId + ".userInfo"]: {
+      //   [`userInfo_${combinedId}`]: {
       //     uid: currentUser.uid,
       //     displayName: currentUser.displayName,
       //     photoURL: currentUser.photoURL,
       //   },
-      //   [combinedId + ".date"]: serverTimestamp(),
+      //   [`date_${combinedId}`]: serverTimestamp(),
       // });
 
       dispatch({ type: "changeUser", payload: user });
+      setUsers([])
     } catch (error) {
       setErr(true);
       console.log("There's an error");
@@ -111,6 +113,7 @@ function Search() {
       </div>
       {err && <span style={{ color: "red" }}>"User Not Found!"</span>}
       {users.map((user) => (
+        
         <div
           className="userChat"
           key={user.uid}
@@ -123,6 +126,7 @@ function Search() {
             <span>{user.displayName}</span>
           </div>
         </div>
+       
       ))}
     </>
   );

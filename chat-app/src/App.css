@@ -501,6 +501,7 @@ font-size: 12px;
   padding: 10px;
   align-items: center;
   gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 
 }
  .userChat:hover{

@@ -6,7 +6,6 @@ import { ChatContext } from "../Context/ChatContext.js";
 function ChatNavbar(props) {
   const { data,isChatSelected,setIsChatSelected } = useContext(ChatContext);
   const [userData, setUserData] = useState(" ");
- 
   useEffect(() => {
     isChatSelected && setUserData(data.user);
 

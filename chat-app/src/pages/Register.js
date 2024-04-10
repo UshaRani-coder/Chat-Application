@@ -88,6 +88,7 @@ function Register() {
           formData.email,
           formData.password
         );
+        //console.log(res)
         // Reference to Firebase Storage using the user's id
         const storageRef = ref(storage, res.user.uid);
         // Creating an upload task for the selected file

@@ -1,61 +1,76 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../Context/AuthContext.js";
-import { doc, onSnapshot, collection } from "firebase/firestore";
-import { db } from "../firebase.js";
-import { ChatContext } from "../Context/ChatContext.js";
+import React, { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../Context/AuthContext.js'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { db } from '../firebase.js'
+import { ChatContext } from '../Context/ChatContext.js'
 
 function Chats(props) {
-  const [chats, setChats] = useState([]);
-  const { currentUser } = useContext(AuthContext);
-  const { dispatch, setIsChatSelected } = useContext(ChatContext);
-  
+  const [chats, setChats] = useState([])
+  const { currentUser } = useContext(AuthContext)
+  const { dispatch, setIsChatSelected, users } = useContext(ChatContext)
 
   useEffect(() => {
-    let unsub;
-    const getChats =  () => {
-      const collectionRef = collection(db, "userChats");
-      unsub = onSnapshot(collectionRef, (querySnapshot) => {
-        const chatArr = [];
-        querySnapshot.forEach((doc) => {
-          chatArr.push(doc.data());
-        });
-        setChats(chatArr); 
-  
-      });
-    };
+    let unsubscribe
+    let unsubUser
+    const unsubscribeFunctions = []
 
-    currentUser.uid && getChats();
+    const getChats = () => {
+      const docRef = doc(db, 'userChats', currentUser.uid)
+      unsubscribe = onSnapshot(docRef, (doc) => {
+        if (doc.exists()) {
+          setChats(Object.entries(doc.data()))
+        }
+      })
+    }
+    users.map((user) => {
+      const docRef = doc(db, 'userChats', user.uid)
+      unsubUser = onSnapshot(docRef, (doc) => {
+        console.log(doc.data())
+        if (doc.exists()) {
+          setChats(Object.entries(doc.data()))
+        }
+      })
+      console.log(user)
+      unsubscribeFunctions.push(unsubUser)
+    })
+
+    if (currentUser.uid) {
+      getChats()
+    }
 
     return () => {
-      if (unsub) {
-        unsub();
+      if (unsubscribe) {
+        unsubscribe()
       }
-    };
-  }, [currentUser.uid]);
+
+      return () => {
+        unsubscribeFunctions.forEach((unsubscribe) => unsubscribe())
+      }
+    }
+  }, [currentUser.uid, users])
 
   function handleSelect(user) {
-    dispatch({ type: "changeUser", payload: user });
-    setIsChatSelected(true);
+    dispatch({ type: 'changeUser', payload: user })
+    setIsChatSelected(true)
   }
 
   return (
     <div className="chats-wrapper">
-      {chats.map((chat, index) => {
-        const userInfoKey = Object.keys(chat).find(key => key.includes("userInfo_"));
-        const userInfo = userInfoKey ? chat[userInfoKey] : null;
-        console.log(userInfoKey,chat)
-        return userInfoKey ? (
-          <div className="chats" key={index} onClick={() => handleSelect(userInfo)}>
-            <img src={userInfo.photoURL} alt="" />
-            <div className="user-chat-info" onClick={() => props.setToggleChat((prevState) => !prevState)}>
-              <span className="user-name">{userInfo.displayName}</span>
+      {chats
+        .filter((chat) => chat[0].includes('userInfo_'))
+        .map((chat, i) => (
+          <div className="chats" key={i} onClick={() => handleSelect(chat[1])}>
+            <img src={chat[1].photoURL} alt="" />
+            <div
+              className="user-chat-info"
+              onClick={() => props.setToggleChat((prevState) => !prevState)}
+            >
+              <span className="user-name">{chat[1].displayName}</span>
             </div>
           </div>
-        ) : null;
-      })}
+        ))}
     </div>
-  );
-  
+  )
 }
 
-export default Chats;
+export default Chats

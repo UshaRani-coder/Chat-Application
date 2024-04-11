@@ -1,14 +1,14 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { AuthContext } from "../Context/AuthContext.js";
-import { ChatContext } from "../Context/ChatContext.js";
-import { onSnapshot, doc } from "firebase/firestore";
-import { db } from "../firebase.js";
-import logo from "../Assets/chat.png";
-import EmojiPickerComponent from "./EmojiPickerComponent.js";
+import React, { useContext, useState, useEffect, useRef } from 'react'
+import { AuthContext } from '../Context/AuthContext.js'
+import { ChatContext } from '../Context/ChatContext.js'
+import { onSnapshot, doc } from 'firebase/firestore'
+import { db } from '../firebase.js'
+import logo from '../Assets/chat.png'
+import EmojiPickerComponent from './EmojiPickerComponent.js'
 
-function ChatBody({loader}) {
-  const ref = useRef();
-  const { currentUser } = useContext(AuthContext);
+function ChatBody({ loader }) {
+  const ref = useRef()
+  const { currentUser } = useContext(AuthContext)
   const {
     data,
     isChatSelected,
@@ -16,47 +16,46 @@ function ChatBody({loader}) {
     showEmojis,
     setIsEmojiSelected,
     textInputRef,
-    text
-  } = useContext(ChatContext);
-  const [messages, setMessages] = useState([]);
+    text,
+  } = useContext(ChatContext)
+  const [messages, setMessages] = useState([])
 
- 
   useEffect(() => {
     if (isChatSelected && data && data.ChatId && currentUser) {
       const unsubscribe = onSnapshot(
-        doc(db, "chats", data.ChatId),
+        doc(db, 'chats', data.ChatId),
         (docSnapshot) => {
-          console.log("docSnapshot:", docSnapshot); // Log docSnapshot
-          console.log("docSnapshot data:", docSnapshot.data()); // Log docSnapshot data
-          const messagesData = docSnapshot.data()?.messages;
-          console.log("Messages from chat:", messagesData);
+          console.log('docSnapshot:', docSnapshot) // Log docSnapshot
+          console.log('docSnapshot data:', docSnapshot.data()) // Log docSnapshot data
+          const messagesData = docSnapshot.data()?.messages
+          console.log('Messages from chat:', messagesData)
           if (messagesData) {
-            setMessages(messagesData);
-            scrollToBottom();
+            setMessages(messagesData)
+            scrollToBottom()
           }
         },
 
         (error) => {
-          console.error("Error fetching document:", error);
-        }
-      );
+          console.error('Error fetching document:', error)
+        },
+      )
 
       return () => {
-        unsubscribe();
-        setIsChatSelected(false);
-      };
+        unsubscribe()
+        setIsChatSelected(false)
+      }
     }
-  }, [data.user, currentUser]);
+  }, [data.user, currentUser])
   const scrollToBottom = () => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  };
+    ref.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   const formatTime = (seconds) => {
-    const date = new Date(seconds * 1000);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
-  };
+    const date = new Date(seconds * 1000)
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
+    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`
+  }
 
   // const Day = (seconds) => {
   //   const date = new Date(seconds * 1000);
@@ -79,17 +78,17 @@ function ChatBody({loader}) {
   // };
 
   function handleEmojiClick(event) {
-    setIsEmojiSelected(prev=>prev===null?event.emoji:null);
-    textInputRef.current.value = text+event.emoji;
+    setIsEmojiSelected((prev) => (prev === null ? event.emoji : null))
+    textInputRef.current.value = text + event.emoji
   }
   return (
     <div className="chat-body">
       {messages.length === 0 && (
         <div className="default">
           <h3>
-            🎉 Welcome to{" "}
+            🎉 Welcome to{' '}
             <span>
-              <img src={logo} alt="chat-logo" width={"20px"} />
+              <img src={logo} alt="chat-logo" width={'20px'} />
               Chatverse
             </span>
             , {currentUser.displayName}🎉
@@ -103,7 +102,8 @@ function ChatBody({loader}) {
       )}
       {/* {messages&& messages.time&& messages.time.seconds&&<h5>{Day(messages.time.seconds)}</h5>} */}
       {loader && <div className="loader"></div>}
-      {!loader && messages.length > 0 &&
+      {!loader &&
+        messages.length > 0 &&
         messages.map((message) => (
           // message.senderUid === currentUser.uid && (
           <React.Fragment key={message.id}>
@@ -112,18 +112,22 @@ function ChatBody({loader}) {
                 <div className="sender-chat">
                   {message.text && (
                     <div className="chatbox">{message.text}</div>
-
                   )}
-                  {message.img && message.type === "image" && (
+                  {message.img && message.type === 'image' && (
                     <img src={message.img} alt="Image" className="send-img" />
                   )}
 
-                  {message.img && message.type === "video" && (
-                    <video controls className="send-video" width="220" height="150">
+                  {message.img && message.type === 'video' && (
+                    <video
+                      controls
+                      className="send-video"
+                      width="220"
+                      height="150"
+                    >
                       <source src={message.img} type="video/mp4" />
                     </video>
                   )}
-                  {message.img && message.type === "pdf" && (
+                  {message.img && message.type === 'pdf' && (
                     <iframe
                       src={message.img}
                       title="PDF"
@@ -132,7 +136,7 @@ function ChatBody({loader}) {
                       className="pdf"
                     />
                   )}
-                  {message.img && message.type === "textPlain" && (
+                  {message.img && message.type === 'textPlain' && (
                     <div>
                       <a href={message.img}>Download TXT File</a>
                     </div>
@@ -142,9 +146,9 @@ function ChatBody({loader}) {
                       src={
                         message.senderUid === currentUser.uid
                           ? currentUser.photoURL
-                          : ""
+                          : ''
                       }
-                      width={"25px"}
+                      width={'25px'}
                       alt=""
                     />
                     <span className="time">
@@ -171,9 +175,9 @@ function ChatBody({loader}) {
                       src={
                         message.senderUid === data.user.uid
                           ? data.user.photoURL
-                          : ""
+                          : ''
                       }
-                      width={"25px"}
+                      width={'25px'}
                       alt=""
                     />
                   </div>
@@ -186,16 +190,14 @@ function ChatBody({loader}) {
 
             {/* ); */}
           </React.Fragment>
-
-         
         ))}
-         {/* {loader && <div className="loader">Loading...</div>} */}
+      {/* {loader && <div className="loader">Loading...</div>} */}
       {messages.length > 0 && showEmojis && (
         <EmojiPickerComponent onEmojiClick={handleEmojiClick} />
       )}
       <div ref={ref}></div>
     </div>
-  );
+  )
 }
 
-export default ChatBody;
+export default ChatBody

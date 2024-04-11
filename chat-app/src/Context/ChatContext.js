@@ -1,22 +1,23 @@
-import { createContext, useContext, useReducer, useState,useRef } from "react";
-import { AuthContext } from "./AuthContext.js";
-export const ChatContext = createContext();
+import { createContext, useContext, useReducer, useState, useRef } from 'react'
+import { AuthContext } from './AuthContext.js'
+export const ChatContext = createContext()
 
 const ChatContextProvider = ({ children }) => {
-  const [isChatSelected, setIsChatSelected] = useState(false);
-  const [isEmojiSelected, setIsEmojiSelected] = useState(null);
-  const [text, setText] = useState("");
-  const textInputRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const [showEmojis, setShowEmojis] = useState(false);
-  const { currentUser } = useContext(AuthContext);
+  const [isChatSelected, setIsChatSelected] = useState(false)
+  const [isEmojiSelected, setIsEmojiSelected] = useState(null)
+  const [text, setText] = useState('')
+  const textInputRef = useRef(null)
+  const fileInputRef = useRef(null)
+  const [users, setUsers] = useState([])
+  const [showEmojis, setShowEmojis] = useState(false)
+  const { currentUser } = useContext(AuthContext)
   const initialState = {
     ChatId: null,
     user: {},
-  };
+  }
   const reducer = (state, action) => {
     switch (action.type) {
-      case "changeUser":
+      case 'changeUser':
         return {
           ChatId:
             currentUser.uid > action.payload.uid
@@ -24,12 +25,12 @@ const ChatContextProvider = ({ children }) => {
               : action.payload.uid + currentUser.uid,
 
           user: action.payload,
-        };
+        }
       default:
-        return state;
+        return state
     }
-  };
-  const [state, dispatch] = useReducer(reducer, initialState);
+  }
+  const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <ChatContext.Provider
       value={{
@@ -44,11 +45,13 @@ const ChatContextProvider = ({ children }) => {
         text,
         setText,
         textInputRef,
-        fileInputRef
+        fileInputRef,
+        users,
+        setUsers,
       }}
     >
       {children}
     </ChatContext.Provider>
-  );
-};
-export default ChatContextProvider;
+  )
+}
+export default ChatContextProvider

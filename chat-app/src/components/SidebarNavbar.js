@@ -3,7 +3,7 @@ import User from './User'
 
 function SidebarNavbar() {
   return (
-    <div className='sidebar-navbar'>
+    <div className="sidebar-navbar">
       <span>Chats</span>
       <User />
     </div>

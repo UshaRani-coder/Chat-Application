@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react'
 import {
   collection,
   query,
@@ -8,84 +8,101 @@ import {
   doc,
   serverTimestamp,
   onSnapshot,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "../firebase";
-import { AuthContext } from "../Context/AuthContext.js";
-import { ChatContext } from "../Context/ChatContext.js";
+} from 'firebase/firestore'
+import { db } from '../firebase'
+import { AuthContext } from '../Context/AuthContext.js'
+import { ChatContext } from '../Context/ChatContext.js'
 
 function Search() {
-  const [searchUserName, setSearchUserName] = useState("");
-  const [users, setUsers] = useState([]);
-  
-  const [err, setErr] = useState(false);
-  const { currentUser } = useContext(AuthContext);
-  const { dispatch} = useContext(ChatContext);
+  const [searchUserName, setSearchUserName] = useState('')
+  // const [users, setUsers] = useState([]);
+
+  const [err, setErr] = useState(false)
+  const { currentUser } = useContext(AuthContext)
+  const { dispatch, users, setUsers } = useContext(ChatContext)
   async function handleSearch() {
-    const usersRef = collection(db, "users");
-    const q = query(usersRef, where("displayName", "==", searchUserName));
+    const usersRef = collection(db, 'users')
+    const q = query(usersRef, where('displayName', '==', searchUserName))
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const foundUsers = [];
+      const foundUsers = []
       snapshot.forEach((doc) => {
-        foundUsers.push(doc.data());
-      });
+        foundUsers.push(doc.data())
+      })
 
       if (foundUsers.length === 0) {
-        setErr(true); // Set err to true if no users are found
+        setErr(true)
       } else {
-        setUsers((prev) => [...prev, ...foundUsers]);
-        setErr(false);
+        setUsers((prev) => [...prev, ...foundUsers])
+        setErr(false)
       }
-      
-    });
+    })
 
-    setSearchUserName("");
-    return unsubscribe;
+    setSearchUserName('')
+    return unsubscribe
   }
-  
+
   function handleKeyDown(e) {
-    if (e.code === "Enter") {
-      handleSearch();
+    if (e.code === 'Enter') {
+      handleSearch()
     }
   }
 
   async function handleSelect(user) {
+    console.log(user)
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+        : user.uid + currentUser.uid
 
     try {
-      const res = await getDoc(doc(db, "chats", combinedId));
+      const res = await getDoc(doc(db, 'chats', combinedId))
       if (!res.exists()) {
-        await setDoc(doc(db, "chats", combinedId), {
+        await setDoc(doc(db, 'chats', combinedId), {
           messages: [],
-        });
+        })
       }
 
-      await setDoc(doc(db, "userChats", currentUser.uid), {
+      // Get the reference to the document in "userChats" collection
+      const currUserChatsDocRef = doc(db, 'userChats', currentUser.uid)
+      // Get the current data of the document
+      const currUserChatsDocSnapshot = await getDoc(currUserChatsDocRef)
+      const currUserData = currUserChatsDocSnapshot.exists()
+        ? currUserChatsDocSnapshot.data()
+        : {}
+      // Update the document by adding new user data
+      const updatedCurrUserData = {
         [`userInfo_${combinedId}`]: {
           uid: user.uid,
           displayName: user.displayName,
           photoURL: user.photoURL,
         },
         [`date_${combinedId}`]: serverTimestamp(),
-      });
+        ...currUserData, // Spread the existing data to retain it
+      }
 
-      // await setDoc(doc(db, "userChats", user.uid), {
-      //   [`userInfo_${combinedId}`]: {
-      //     uid: currentUser.uid,
-      //     displayName: currentUser.displayName,
-      //     photoURL: currentUser.photoURL,
-      //   },
-      //   [`date_${combinedId}`]: serverTimestamp(),
-      // });
+      const userChatsDocRef = doc(db, 'userChats', user.uid)
+      const userChatsDocSnapshot = await getDoc(userChatsDocRef)
+      const userData = userChatsDocSnapshot.exists()
+        ? userChatsDocSnapshot.data()
+        : {}
+      const updatedUserData = {
+        [`userInfo_${combinedId}`]: {
+          uid: currentUser.uid,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+        },
+        [`date_${combinedId}`]: serverTimestamp(),
+        ...userData,
+      }
 
-      dispatch({ type: "changeUser", payload: user });
+      await setDoc(currUserChatsDocRef, updatedCurrUserData)
+      await setDoc(userChatsDocRef, updatedUserData)
+
+      dispatch({ type: 'changeUser', payload: user })
       setUsers([])
     } catch (error) {
-      setErr(true);
-      console.log("There's an error");
+      setErr(true)
+      console.log("There's an error")
     }
   }
 
@@ -95,7 +112,7 @@ function Search() {
         <label htmlFor="search-chat">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={"20px"}
+            width={'20px'}
             fill="rgba(255, 255, 255, 0.4)"
             viewBox="0 0 512 512"
           >
@@ -111,14 +128,13 @@ function Search() {
           value={searchUserName}
         />
       </div>
-      {err && <span style={{ color: "red" }}>"User Not Found!"</span>}
+      {err && <span style={{ color: 'red' }}>"User Not Found!"</span>}
       {users.map((user) => (
-        
         <div
           className="userChat"
           key={user.uid}
           onClick={() => {
-            handleSelect(user);
+            handleSelect(user)
           }}
         >
           <img src={user.photoURL} alt="" />
@@ -126,10 +142,9 @@ function Search() {
             <span>{user.displayName}</span>
           </div>
         </div>
-       
       ))}
     </>
-  );
+  )
 }
 
-export default Search;
+export default Search

@@ -8,7 +8,6 @@ import { db } from '../firebase'
 import { doc, setDoc } from 'firebase/firestore'
 import { useNavigate, Link } from 'react-router-dom'
 import Resizer from 'react-image-file-resizer'
-//import ResizeImage from '../imageUtils';
 
 function Register() {
   const resizeImage = async (file, maxWidth, maxHeight) => {
@@ -37,7 +36,6 @@ function Register() {
     }
   }
 
-  //const [loader,setLoader] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -87,16 +85,12 @@ function Register() {
           formData.email,
           formData.password,
         )
-        //console.log(res)
         // Reference to Firebase Storage using the user's id
         const storageRef = ref(storage, res.user.uid)
         // Creating an upload task for the selected file
         const resizedImage = await resizeImage(formData.file, 500, 500)
         const uploadTask = uploadBytesResumable(storageRef, resizedImage)
-        // console.log(formData.file)
-
-        // console.log(resizedImage)
-
+        
         // Handling events during the upload task
         uploadTask.on(
           'state_changed',

@@ -44,22 +44,7 @@ form {
   justify-content: space-around;
   margin-top: 15px;
 }
-/* .logo-sec{
-  display: flex;
-  align-items: center;
-  padding-top: 10px;
-}
-.logo{
-  font-size: 20px;
-color: #ffffff;
-font-family: 'Lobster', sans-serif;
-letter-spacing: 2px;
-} */
-/* input{
-  border: none;
-  padding: 4px;
-  border-bottom: 1px solid #ffffff;
-} */
+
 
 label {
   display: flex;
@@ -99,9 +84,6 @@ button {
   color: #057cfc;
   font-size: 20px;
 }
-
-/* styling the Home-page */
-
 .App {
   height: 100vh;
 }
@@ -164,25 +146,7 @@ button {
   font-size: 20px;
   font-weight: 800;
 }
-/* .icons-navbar{
-  width: 5%;
-  display: none;
-  background-color: #6b3669;
-  
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
 
-} */
-/* .top-icons,.bottom-icons{
-  height:20%;
-  display: flex;
-  flex-direction: column;
-  justify-content:space-evenly;
-}
-.top-icons img, .bottom-icons img{
-  filter: invert(75%);
-} */
 .chat-navbar {
   background-color: #ffffff;
   display: flex;
@@ -312,15 +276,7 @@ button {
   gap: 5px;
 }
 
-.chats-image,
-.receiver .img {
-  padding: 15px;
-  border-radius: 50%;
-  background-image: url('./Assets/user.jpg');
-  background-position: center;
-  background-size: 95% 100%;
-  object-fit: cover;
-}
+
 .user-image {
   border-radius: 50%;
   width: 40px;
@@ -380,14 +336,7 @@ button {
     width: 50%;
   }
 }
-/* .user-chat-info p{
-margin: 0;
-color:#ffffff ;
-font-weight: 300;
-font-size: 12px;
-} */
 
-/*chat-body*/
 .chat-body {
   display: flex;
   flex-direction: column;
@@ -411,6 +360,7 @@ font-size: 12px;
   justify-content: left;
   flex-direction: row-reverse;
   font-size: 15px;
+ 
 }
 .sender-chat .chatbox {
   background-color: #ff85a2;
@@ -431,6 +381,7 @@ font-size: 12px;
 
 .time {
   font-size: 10px;
+  margin-top: 15px;
 }
 .receiver-chat .chatbox {
   background-color: #8bc6fc;
@@ -469,7 +420,6 @@ font-size: 12px;
 }
 .alert {
   border: 1px solid #e32636;
-  /* background-color: #e32636; */
   color: #e32636;
   box-shadow:
     7px 7px 15px 0px rgba(0, 0, 0, 0.3),
@@ -608,10 +558,6 @@ font-size: 12px;
   font-weight: 500;
   padding: 10px 20px;
 }
-/* .last-messege{
-  font-size: 100px;
-  color: #ffffff;
-} */
 .default-chat-navbar-image {
   width: 45px;
   height: 35px;

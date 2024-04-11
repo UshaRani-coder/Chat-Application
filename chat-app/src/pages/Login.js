@@ -1,4 +1,4 @@
-import logo from '../Assets/chat.png'
+//import logo from '../Assets/chat.png'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import React from 'react'
 import { useState } from 'react'

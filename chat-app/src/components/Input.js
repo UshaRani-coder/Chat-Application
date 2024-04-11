@@ -31,8 +31,6 @@ function Input({ setLoader }) {
 
   const [img, setImg] = useState(null)
   const [imgPreview, setImgPreview] = useState(null)
-  // const [loader , setLoader] = useState(false)
-
   const resizeImage = async (file, maxWidth, maxHeight) => {
     const resizedFile = await new Promise((resolve) => {
       Resizer.imageFileResizer(

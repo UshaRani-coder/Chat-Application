@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-//import videocallIcon from '../Assets/cam-recorder.png'
-//import moreIcon from '../Assets/more.png'
 import { ChatContext } from '../Context/ChatContext.js'
 
 function ChatNavbar(props) {

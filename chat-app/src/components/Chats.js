@@ -56,20 +56,28 @@ function Chats(props) {
 
   return (
     <div className="chats-wrapper">
-      {chats
-        .filter((chat) => chat[0].includes('userInfo_'))
-        .map((chat, i) => (
-          <div className="chats" key={i} onClick={() => handleSelect(chat[1])}>
-            <img src={chat[1].photoURL} alt="" />
-            <div
-              className="user-chat-info"
-              onClick={() => props.setToggleChat((prevState) => !prevState)}
-            >
-              <span className="user-name">{chat[1].displayName}</span>
-            </div>
-          </div>
-        ))}
-    </div>
+  {chats
+    .filter((chat) => chat[0].includes('userInfo_'))
+    .sort((a, b) => {
+      const dateKeyA = Object.keys(a[1]).find((key) => key.startsWith('date_'));
+      const dateKeyB = Object.keys(b[1]).find((key) => key.startsWith('date_'));
+      const dateA = a[1][dateKeyA];
+      const dateB = b[1][dateKeyB];
+      return dateB - dateA; 
+    })
+    .map((chat, i) => (
+      <div className="chats" key={i} onClick={() => handleSelect(chat[1])}>
+        <img src={chat[1].photoURL} alt="" />
+        <div
+          className="user-chat-info"
+          onClick={() => props.setToggleChat((prevState) => !prevState)}
+        >
+          <span className="user-name">{chat[1].displayName}</span>
+        </div>
+      </div>
+    ))}
+</div>
+
   )
 }
 

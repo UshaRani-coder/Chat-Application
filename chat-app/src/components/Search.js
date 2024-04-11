@@ -75,8 +75,9 @@ function Search() {
           uid: user.uid,
           displayName: user.displayName,
           photoURL: user.photoURL,
+          [`date_${combinedId}`]: serverTimestamp(),
         },
-        [`date_${combinedId}`]: serverTimestamp(),
+        // [`date_${combinedId}`]: serverTimestamp(),
         ...currUserData, // Spread the existing data to retain it
       }
 
@@ -90,8 +91,9 @@ function Search() {
           uid: currentUser.uid,
           displayName: currentUser.displayName,
           photoURL: currentUser.photoURL,
+          [`date_${combinedId}`]: serverTimestamp(),
         },
-        [`date_${combinedId}`]: serverTimestamp(),
+        // [`date_${combinedId}`]: serverTimestamp(),
         ...userData,
       }
 

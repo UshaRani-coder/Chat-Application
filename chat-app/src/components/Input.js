@@ -131,9 +131,9 @@ function Input({ setLoader }) {
     }
     await updateDoc(doc(db, 'userChats', currentUser.uid), {
       [`lastMessege_${data.ChatId}`]: {
-        text,
-      },
-      [`date_${data.ChatId}`]: serverTimestamp(),
+        messageText,
+        [`date_${data.ChatId}`]: serverTimestamp(),
+      }
     })
     // await updateDoc(doc(db, "userChats", data.user.uid), {
     //   [data.ChatId + ".lastMessege"]: {

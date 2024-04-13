@@ -9,6 +9,7 @@ const ChatContextProvider = ({ children }) => {
   const textInputRef = useRef(null)
   const fileInputRef = useRef(null)
   const [users, setUsers] = useState([])
+  const [deleteChat, setDeleteChat] = useState(false)
   const [showEmojis, setShowEmojis] = useState(false)
   const { currentUser } = useContext(AuthContext)
   const initialState = {
@@ -48,6 +49,8 @@ const ChatContextProvider = ({ children }) => {
         fileInputRef,
         users,
         setUsers,
+        deleteChat,
+        setDeleteChat,
       }}
     >
       {children}

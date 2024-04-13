@@ -45,7 +45,8 @@ function Register() {
   // State to manage error handling
   const [err, setErr] = useState(false)
   const navigate = useNavigate()
-
+  const [imgLoader, setImgLoader] = useState(false)
+  const [Progress, setProgress] = useState(0)
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -90,7 +91,8 @@ function Register() {
         // Creating an upload task for the selected file
         const resizedImage = await resizeImage(formData.file, 500, 500)
         const uploadTask = uploadBytesResumable(storageRef, resizedImage)
-        
+
+        setImgLoader(true)
         // Handling events during the upload task
         uploadTask.on(
           'state_changed',
@@ -99,11 +101,13 @@ function Register() {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
             console.log('Upload is ' + progress + '% done')
+            setProgress(progress)
           },
           (err) => {
             // If there's an error during upload, set error state to true
             setErr(true)
             console.log("There's an error during upload", err.message)
+            setImgLoader(false)
           },
 
           async () => {
@@ -129,6 +133,8 @@ function Register() {
               navigate('/home')
             } catch (error) {
               console.error('Error:', error.message)
+            } finally {
+              setImgLoader(false)
             }
           },
         )
@@ -151,6 +157,7 @@ function Register() {
       }
     }
   }
+  console.log(Progress)
   return (
     <div>
       <div className="form-container">
@@ -193,7 +200,11 @@ function Register() {
               }
             />
             <label htmlFor="file">
-              <img style={{ width: '20px' }} src={Image} alt="" />
+              <img
+                style={{ width: '20px', cursor: 'pointer' }}
+                src={Image}
+                alt=""
+              />
               <span>Add an avatar</span>
             </label>
             <button>Sign Up</button>
@@ -205,6 +216,15 @@ function Register() {
             </Link>
           </p>
         </div>
+        {imgLoader && (
+          <div className="img-loading">
+            <span id="img-loading">Image Uploading</span>
+            <div className="progress-bar">
+              <div style={{ width: `${Progress}%` }}></div>
+              <span>{Progress}%</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

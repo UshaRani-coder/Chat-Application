@@ -3,11 +3,9 @@ import Sidebar from '../components/Sidebar'
 import ChatContainer from '../components/ChatContainer.js'
 import Header from '../components/Header'
 
-
 function Home() {
   const [toggleChat, setToggleChat] = useState(false)
-  
-  
+
   return (
     <>
       {/* <div>{ <Header /> }</div> */}

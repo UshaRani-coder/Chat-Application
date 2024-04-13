@@ -8,6 +8,8 @@
 <li><strong>Emoji Support</strong>: Express yourself with emojis</li>
 <li><strong>File Sharing</strong>: Share images,videos,documents,pdfs and other files</li>
 <li><strong>Private Chats</strong>: Engage in private conversations with individuals, privacy</li>
+<li><strong>Message Deletion</strong>: Users have the ability to delete individual messages, providing control over their conversation history.</li>
+<li><strong>Chat Deletion</strong>: Users can delete entire chat threads, removing them from their chat list and clearing the conversation history.</li>
 <li><strong>Fully Responsive</strong>: ChatVerse is designed to adapt to various screen sizes, ensuring a seamless experience across devices.</li>
 <h2>Installation</h2>
 <p>To run ChatVerse locally, follow these steps:</p>

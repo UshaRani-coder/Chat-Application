@@ -21,7 +21,7 @@ function Login() {
       const minLength = 8
       const hasUpperCase = /[A-Z]/.test(password)
       const hasLowerCase = /[a-z]/.test(password)
-      const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(password)
+      const hasSpecialChar = /[!@#$%^&*()_+{}\]:;<>,.?~\\/-]/.test(password)
       const hasNumber = /\d/.test(password)
       return (
         password.length >= minLength &&
@@ -32,7 +32,7 @@ function Login() {
       )
     }
 
-    if (data.email == '' || data.password == '') {
+    if (data.email === '' || data.password === '') {
       document.querySelector('.alert').style.display = 'block'
       document.querySelector('.alert').textContent =
         'Please fill out the required fields in the form to complete your login'
@@ -41,6 +41,7 @@ function Login() {
       document.querySelector('.alert').textContent =
         'Password must meet the complexity requirements.'
     } else {
+      document.querySelector('.alert').style.display = 'none'
       // signing in  with email and password
       try {
         const auth = getAuth()

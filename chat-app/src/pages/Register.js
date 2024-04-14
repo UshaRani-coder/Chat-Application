@@ -79,6 +79,7 @@ function Register() {
       document.querySelector('.alert').textContent =
         'Password must meet the complexity requirements.'
     } else {
+      document.querySelector('.alert').style.display = 'none'
       // Creating a new user with email and password
       try {
         const res = await createUserWithEmailAndPassword(

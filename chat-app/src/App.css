@@ -172,11 +172,15 @@ button {
 }
 .search {
   display: flex;
-  padding-left: 20px;
-  gap: 5px;
+  padding: 0px 20px;
+  justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
-.search input {
+.search div{
+  display: flex;
+  gap: 10px;
+}
+.search div input {
   background-color: transparent;
   border: none;
   outline: none;
@@ -184,7 +188,7 @@ button {
   font-weight: 600;
   font-family: 'Anta', sans-serif;
 }
-.search input::placeholder {
+.search div input::placeholder {
   color: rgba(255, 255, 255, 0.4);
   font-weight: 500;
   font-family: 'Anta', sans-serif;
@@ -301,7 +305,7 @@ button {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding: 10px;
+  padding: 10px 25px;
   background-color: #00264b;
 }
 .chats:hover {
